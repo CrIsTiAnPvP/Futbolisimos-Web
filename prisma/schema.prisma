@@ -63,36 +63,40 @@ model VerificationToken {
 }
 
 model Liga {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  nombre   String
-  miembros String[]
-  id_creador  String   @db.ObjectId
-  createdAt DateTime @default(now())
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  nombre     String
+  miembros   String[]
+  id_creador String   @db.ObjectId
+  createdAt  DateTime @default(now())
 
   // Relacion 1-n con equipo, ya que 1 liga tiene muchos equipos y 1 equipo pertenece a una liga
-  equipos  Equipo[]
+  equipos Equipo[]
+
+  // Relacion 1-1 con mercado, ya que 1 liga tiene un mercado y 1 mercado pertenece a una liga
+  mercado Mercado @relation(fields: [id], references: [id_liga], onDelete: Cascade)
 }
 
 model Equipo {
-  id_owner  String    @db.ObjectId
-  id_liga   String    @db.ObjectId
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  nombre    String
-  Valor     Float
-  
+  id_owner String @db.ObjectId
+  id_liga  String @db.ObjectId
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  nombre   String
+  Valor    Float
+
   // Relacion m-n Con jugadores, ya que 1 equipo tiene muchos jugadores y 1 jugador puede estar en muchos equipos (De diferentes ligas)
-  Jugadores Jugador[] @relation(fields: [IdsJugadores], references: [id])
-  IdsJugadores String[] @db.ObjectId
+  Jugadores    Jugador[] @relation(fields: [IdsJugadores], references: [id])
+  IdsJugadores String[]  @db.ObjectId
 
   // Relacion 1-n con liga, ya que 1 liga tiene muchos equipos y 1 equipo pertenece a una liga
-  liga      Liga      @relation(fields: [id_liga], references: [id], onDelete: Cascade)
+  liga Liga @relation(fields: [id_liga], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
 
   // Solo puede haber un equipo por liga y por owner, ya que no puede haber 2 equipos con el mismo owner en la misma liga
   @@unique([id_liga, id_owner])
-  // Unicidad del nombre del equipo, ya que no puede haber 2 equipos con el mismo nombre
-  @@unique([nombre])
 
-  createdAt DateTime @default(now())
+  // Unicidad del nombre del equipo, ya que no puede haber 2 equipos con el mismo nombre, en la misma liga
+  @@unique([id_liga, nombre])
 }
 
 model Jugador {
@@ -104,8 +108,15 @@ model Jugador {
   Stats      Stats[]
 
   // Relacion m-n Con equipo, ya que 1 jugador puede estar en muchos equipos (De diferentes ligas) y 1 equipo tiene muchos jugadores 
-  Equipo   Equipo[]  @relation(fields: [IdsEquipo], references: [id]) 
+  Equipo    Equipo[] @relation(fields: [IdsEquipo], references: [id])
   IdsEquipo String[] @db.ObjectId
+
+  // Relacion m-n con mercado, ya que 1 jugador puede estar en muchos mercados (De diferentes ligas) y 1 mercado tiene muchos jugadores
+  Mercados Mercado[] @relation(fields: [IdsMercados], references: [id])
+  IdsMercados String[] @db.ObjectId
+
+  // Relacion 1-n con operacion, ya que 1 jugador tiene muchas operaciones (diferentes mercados de diferentes ligas) y 1 operacion pertenece a un jugador
+  Operaciones Operacion[]
 }
 
 model Stats {
@@ -125,4 +136,37 @@ model Stats {
 
   // Unicidad del id_equipo, id_jugador y id_liga, ya que no puede haber 2 estadisticas con el mismo jugador, equipo y liga
   @@unique([id_equipo, id_jugador, id_liga])
+}
+
+model Mercado {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  id_liga String @db.ObjectId
+
+  // Relacion m-n con jugadores, ya que 1 mercado tiene muchos jugadores y 1 jugador puede estar en muchos mercados (De diferentes ligas)
+  Jugadores Jugador[] @relation(fields: [IdsJugadores], references: [id])
+  IdsJugadores String[] @db.ObjectId
+
+  Operaciones Operacion[]
+
+  Liga Liga?
+  // Unicidad del id_liga, ya que no puede haber 2 mercados con la misma liga
+  @@unique([id_liga])
+}
+
+model Operacion {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  id_jugador String @db.ObjectId
+  id_mercado String @db.ObjectId
+
+  PrecioInicial Float
+  PrecioActual Float
+  PrecioFinal Float
+  Fecha DateTime
+  UltimaPuja DateTime
+
+  // Relacion 1-1 con jugador, ya que 1 operacion tiene un jugador y 1 jugador tiene una operacion
+  Jugador Jugador @relation(fields: [id_jugador], references: [id], onDelete: Cascade)
+
+  // Relacion 1-n con mercado, ya que 1 operacion tiene un mercado y 1 mercado tiene muchas operaciones
+  Mercado Mercado @relation(fields: [id_mercado], references: [id], onDelete: Cascade)
 }
