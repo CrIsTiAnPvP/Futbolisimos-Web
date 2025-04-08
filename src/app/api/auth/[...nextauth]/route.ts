@@ -6,7 +6,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 
 import { prisma } from "@/prisma";
 
-export default NextAuth({
+const handler = NextAuth({
 	providers: [
 		Github({
 			clientId: process.env.GITHUB_ID || "",
@@ -23,3 +23,5 @@ export default NextAuth({
 	],
 	adapter: PrismaAdapter(prisma)
 });
+
+export { handler as GET, handler as POST };

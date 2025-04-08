@@ -1,9 +1,197 @@
+"use client"
+import { useEffect, useState } from "react";
+import { Tooltip } from "react-tooltip"
+import { useRouter, usePathname } from 'next/navigation';
+import { useTranslations, useLocale } from 'next-intl';
+import "../../node_modules/flag-icons/css/flag-icons.min.css"
 
+interface NavProps {
+	refs: {
+		home: React.RefObject<HTMLDivElement | null>;
+	}
+}
 
-export default function NavBar() {
-  return (
-	<nav>
-		
-	</nav>
-  )
+export default function NavBar({ refs }: NavProps) {
+
+	const { home } = refs;
+
+	const [darkMode, setDarkMode] = useState('dark')
+	const [_, setTheme] = useState('light')
+
+	const [open, setOpen] = useState(false)
+
+	useEffect(() => {
+		const storedTheme = localStorage.getItem('theme');
+		if (storedTheme) {
+			setDarkMode(storedTheme);
+		} else {
+			const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+			setDarkMode(prefersDark ? 'dark' : 'light');
+		}
+	}, []);
+
+	useEffect(() => {
+		if (darkMode === 'dark') {
+			document.documentElement.setAttribute('data-theme', 'dark')
+			localStorage.setItem('theme', 'dark')
+		} else {
+			document.documentElement.setAttribute('data-theme', 'light')
+			localStorage.setItem('theme', 'light')
+		}
+
+		const storedTheme = localStorage.getItem('theme')
+
+		if (storedTheme) {
+			setTheme(storedTheme === 'dark' ? 'light' : 'dark')
+		} else {
+			setDarkMode(window.matchMedia("(prefers-color-scheme: dark)").matches ? 'dark' : 'light')
+			setTheme(window.matchMedia("(prefers-color-scheme: dark)").matches ? 'light' : 'dark')
+			localStorage.setItem('theme', window.matchMedia("(prefers-color-scheme: dark)").matches ? 'dark' : 'light')
+		}
+	}, [darkMode])
+
+	const scrollTo = (Element: React.RefObject<HTMLElement | null>) => {
+		if (Element.current) {
+			window.scrollTo({
+				top: Element.current.offsetTop,
+				behavior: 'smooth'
+			});
+		}
+	}
+
+	const router = useRouter()
+	const pathname = usePathname()
+	const locale = useLocale()
+
+	const handleLngChange = (lng: string) => {
+		if (locale !== lng) {
+			router.push(`${pathname.replace(locale, lng)}`)
+		}
+	}
+
+	const [prevScrollPos, setPrevScrollPos] = useState(0);
+	const [visible, setVisible] = useState(true);
+	const [alpha, setAlpha] = useState(100);
+
+	useEffect(() => {
+		const handleScroll = () => {
+			const currentScrollPos = window.pageYOffset;
+			setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
+			setPrevScrollPos(currentScrollPos);
+		};
+
+		window.addEventListener("scroll", handleScroll);
+		return () => window.removeEventListener("scroll", handleScroll);
+	}, [prevScrollPos]);
+
+	useEffect(() => {
+		const handleScroll = () => {
+			setAlpha(window.scrollY === 0 ? 100 : 30)
+		};
+
+		window.addEventListener("scroll", handleScroll);
+		return () => window.removeEventListener("scroll", handleScroll);
+	}, []);
+
+	const lis = [
+		{
+			arialabel: "home",
+			link: `/${locale}`,
+			current: pathname === `/${locale}` ? true : false,
+		}
+	]
+
+	return (
+		<nav className={`backdrop-blur-sm fixed z-20 flex p-2 justify-between w-full transition-transform duration-300 ${visible ? `translate-y-0 dark:bg-red-800/${alpha} bg-gray-100/${alpha}` : "-translate-y-full"}`} aria-label="navbar">
+			<a href="https://cristianac.live" target="_blank" referrerPolicy="no-referrer" aria-label="portfolio-link" onClick={(e) => { if (open) { e.preventDefault(); setOpen(false) } }}>
+				<div className="flex gap-2 mt-2">
+					<img src="/images/icono.webp" alt="Logo" className="h-10 w-10 rounded-full" />
+					<h2 className="text-2xl font-bold text-center text-gray-700 dark:text-white mt-0.5">Futbolisimos</h2>
+				</div>
+			</a>
+			<ul className="hidden md:flex lg:flex justify-center space-x-4 text-gray-700 dark:text-white py-2">
+				{
+					lis.map((li, index) => (
+						<li key={index}>
+							<a href={li.link} aria-label={li.arialabel} className={`p-2 ${li.current ? "font-bold underline" : ""}`}>
+								{li.arialabel.charAt(0).toUpperCase() + li.arialabel.slice(1)}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+			<div className="hidden md:flex items-center gap-1">
+				{
+					darkMode === 'dark' ? (
+						<>
+							<svg data-tooltip-id="theme" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+								className="size-6 hover:cursor-pointer stroke-white outline-none focus:outline-none active:outline-none" onClick={() => setDarkMode('light')} aria-label="light-mode">
+								<path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+							</svg>
+						</>
+					) : (
+						<>
+							<svg data-tooltip-id="theme" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black"
+								className="size-6 hover:cursor-pointer outline-none focus:outline-none active:outline-none" onClick={() => setDarkMode('dark')} aria-label="dark-mode">
+								<path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+							</svg>
+						</>
+					)
+				}
+				<Tooltip id="theme" content={`Set ${darkMode === 'dark' ? 'light' : 'dark'} theme`} delayShow={500} place="bottom-start" className="z-10" />
+			</div>
+			<button className="z-10 md:hidden flex items-center gap-1" aria-label="menu" aria-expanded="false" data-collapse-toggle="hamburger-menu" aria-controls="hamburger-menu" type="button" onClick={() => setOpen(true)}>
+				<span className="sr-only">Open menu</span>
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="size-6 dark:stroke-white stroke-black hover:cursor-pointer" aria-label="menu">
+					<path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+				</svg>
+			</button>
+			<div className={`fixed ${open ? "bg-gray-900/50 pointer-events-auto inset-0 z-10 overflow-hidden" : "pointer-events-none"}`} onClick={() => setOpen(false)}>
+				<div id="hamburger-menu" className={`fixed top-0 right-0 h-full bg-gray-100 dark:bg-gray-800 shadow-lg transform transition-transform duration-300 w-[60%] ${open ? "translate-x-0" : "translate-x-full"}`} onClick={(e) => e.stopPropagation()}>
+					<div className="flex justify-between items-center">
+						<span className="sr-only">Close menu</span>
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="size-6 dark:stroke-white stroke-black hover:cursor-pointer mt-5 ml-3" aria-label="close-menu" onClick={() => setOpen(false)}>
+							<path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+						</svg>
+						<div className="flex gap-2 mr-3 mt-5">
+							{
+								darkMode === 'dark' ? (
+									<>
+										<svg data-tooltip-id="theme" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+											className="size-6 hover:cursor-pointer stroke-white" onClick={() => setDarkMode('light')} aria-label="light-mode">
+											<path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+										</svg>
+									</>
+								) : (
+									<>
+										<svg data-tooltip-id="theme" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black"
+											className="size-6 hover:cursor-pointer" onClick={() => setDarkMode('dark')} aria-label="dark-mode">
+											<path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+										</svg>
+									</>
+								)
+							}
+						</div>
+					</div>
+					<ul className="mt-10 flex flex-col items-center h-full w-full space-y-4 text-gray-700 dark:text-white py-2" onClick={() => setOpen(false)}>
+						<li>
+							<a href="#home" className="hover:border p-2 hover:bg-gray-400 transition-all ease-in-out duration-150" aria-label="home">Home</a>
+						</li>
+						<li>
+							<a href="#about" className="hover:border p-2 hover:bg-gray-400 transition-all ease-in-out duration-150" aria-label="about me">About</a>
+						</li>
+						<li>
+							<a href="#projects" className="hover:border p-2 hover:bg-gray-400 transition-all ease-in-out duration-150" aria-label="pojects">Projects</a>
+						</li>
+						<li>
+							<a href="#skills" className="hover:border p-2 hover:bg-gray-400 transition-all ease-in-out duration-150" aria-label="skills">Skills</a>
+						</li>
+						<li>
+							<a href="#contact" className="hover:border p-2 hover:bg-gray-400 transition-all ease-in-out duration-150" aria-label="contact">Contact</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	)
 }
