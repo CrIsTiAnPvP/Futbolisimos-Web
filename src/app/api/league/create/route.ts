@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
 
 	try {
 		await req.json()
-	} catch (error) {
+	} catch {
 		return NextResponse.json({ error: "No se ha enviado el body" }, { status: 400 });
 	}
 

@@ -21,7 +21,8 @@ export default function middleware(req: NextRequest) {
 
 	const isPublic = ppages.some((path) => nextUrl.pathname.startsWith(path))
 	if (isPublic) return intlMiddleware(req)
-	
+		
+	/* eslint-disable  @typescript-eslint/no-explicit-any */
 	return (authMiddleware as any)(req)
 }
 

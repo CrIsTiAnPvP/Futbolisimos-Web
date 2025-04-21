@@ -9,7 +9,7 @@ import { notFound } from "next/navigation";
 
 import { SessionProvider } from "@/provider/SessionProvider";
 import { getServerSession } from "next-auth";
-import { AuthOptions } from "@/app/api/auth/[...nextauth]/route";
+import { AuthOptions } from "@/auth";
 
 import { Toaster } from "@/components/ui/sonner";
 

@@ -2,17 +2,14 @@
 import { useEffect, useState } from "react";
 import { Tooltip } from "react-tooltip"
 import { useRouter, usePathname } from 'next/navigation';
-import { useTranslations, useLocale } from 'next-intl';
+import { useLocale } from 'next-intl';
+import Image from "next/image"
 import "../../node_modules/flag-icons/css/flag-icons.min.css"
 
-interface NavProps {
-	session?: any;
-}
-
-export default function NavBar({ session }: NavProps) {
+export default function NavBar() {
 
 	const [darkMode, setDarkMode] = useState('dark')
-	const [_, setTheme] = useState('light')
+	const [, setTheme] = useState('light')
 
 	const [open, setOpen] = useState(false)
 
@@ -46,14 +43,14 @@ export default function NavBar({ session }: NavProps) {
 		}
 	}, [darkMode])
 
-	const scrollTo = (Element: React.RefObject<HTMLElement | null>) => {
-		if (Element.current) {
-			window.scrollTo({
-				top: Element.current.offsetTop,
-				behavior: 'smooth'
-			});
-		}
-	}
+	// const scrollTo = (Element: React.RefObject<HTMLElement | null>) => {
+	// 	if (Element.current) {
+	// 		window.scrollTo({
+	// 			top: Element.current.offsetTop,
+	// 			behavior: 'smooth'
+	// 		});
+	// 	}
+	// }
 
 	const router = useRouter()
 	const pathname = usePathname()
@@ -101,7 +98,7 @@ export default function NavBar({ session }: NavProps) {
 		<nav className={`backdrop-blur-sm flex p-2 justify-between w-full transition-transform duration-300 ${visible ? `translate-y-0 dark:bg-red-800/${alpha} bg-gray-100/${alpha}` : "-translate-y-full"}`} aria-label="navbar">
 			<a href="https://cristianac.live" target="_blank" referrerPolicy="no-referrer" aria-label="portfolio-link" onClick={(e) => { if (open) { e.preventDefault(); setOpen(false) } }}>
 				<div className="flex gap-2 mt-2">
-					<img src="/images/icono.webp" alt="Logo" className="h-10 w-10 rounded-full" />
+					<Image src="/images/icono.webp" alt="Logo" className="h-10 w-10 rounded-full" width={64} height={64}/>
 					<h2 className="text-2xl font-bold text-center text-gray-700 dark:text-white mt-0.5">Futbolisimos</h2>
 				</div>
 			</a>
