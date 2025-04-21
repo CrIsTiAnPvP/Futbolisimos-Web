@@ -18,6 +18,7 @@ export default function Head() {
 							height={1080}
 							className="w-2/5 h-auto rounded-2xl ml-35 mt-1"
 							priority={true}
+							unoptimized
 						/>
 					) : (
 						<Image
@@ -27,6 +28,7 @@ export default function Head() {
 							height={1080}
 							className="w-2/5 h-auto rounded-2xl ml-35 mt-1"
 							priority={true}
+							unoptimized
 						/>
 					)
 				}

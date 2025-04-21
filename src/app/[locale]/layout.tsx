@@ -7,6 +7,10 @@ import { getMessages } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 
+import { SessionProvider } from "@/provider/SessionProvider";
+import { getServerSession } from "next-auth";
+import { AuthOptions } from "@/app/api/auth/[...nextauth]/route";
+
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
@@ -31,12 +35,15 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
     return notFound();
   }
   const messages = await getMessages()
+  const session = await getServerSession(AuthOptions);
 
   return (
     <html lang={locale} className="min-h-screen">
       <body className='bg-gray-100 dark:bg-gray-900'>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          {children}
+        <NextIntlClientProvider locale={locale} messages={messages}>ç
+          <SessionProvider session={session}>
+            {children}
+          </SessionProvider>
           <Toaster theme="system" closeButton={true} />
         </NextIntlClientProvider>
       </body>
