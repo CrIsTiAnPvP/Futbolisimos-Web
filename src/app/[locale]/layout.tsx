@@ -33,8 +33,8 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
   const messages = await getMessages()
 
   return (
-    <html lang={locale}>
-      <body>
+    <html lang={locale} className="min-h-screen">
+      <body className='bg-gray-100 dark:bg-gray-900'>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
           <Toaster theme="system" closeButton={true} />

@@ -1,11 +1,11 @@
 "use client"
-import { useRef, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import Nav from '@/components/NavBar'
+import Head from '@/components/Head';
 
 export default function Home() {
 
-  const homeRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (localStorage.theme === 'dark') {
@@ -20,12 +20,8 @@ export default function Home() {
 
   return (
     <>
-      <div className='bg-gray-100 dark:bg-gray-900 min-h-screen'>
-        <Nav refs={{ home: homeRef }} />
-        <div ref={homeRef} className='flex flex-col items-center justify-center h-screen mb-[1800px]'>
-
-        </div>
-      </div>
+      <Nav/>
+      <Head />
     </>
   );
 }

@@ -6,14 +6,10 @@ import { useTranslations, useLocale } from 'next-intl';
 import "../../node_modules/flag-icons/css/flag-icons.min.css"
 
 interface NavProps {
-	refs: {
-		home: React.RefObject<HTMLDivElement | null>;
-	}
+	session?: any;
 }
 
-export default function NavBar({ refs }: NavProps) {
-
-	const { home } = refs;
+export default function NavBar({ session }: NavProps) {
 
 	const [darkMode, setDarkMode] = useState('dark')
 	const [_, setTheme] = useState('light')
@@ -95,14 +91,14 @@ export default function NavBar({ refs }: NavProps) {
 
 	const lis = [
 		{
-			arialabel: "home",
+			arialabel: `${locale === 'es' ? 'Inicio' : 'Home'}`,
 			link: `/${locale}`,
 			current: pathname === `/${locale}` ? true : false,
 		}
 	]
 
 	return (
-		<nav className={`backdrop-blur-sm fixed z-20 flex p-2 justify-between w-full transition-transform duration-300 ${visible ? `translate-y-0 dark:bg-red-800/${alpha} bg-gray-100/${alpha}` : "-translate-y-full"}`} aria-label="navbar">
+		<nav className={`backdrop-blur-sm flex p-2 justify-between w-full transition-transform duration-300 ${visible ? `translate-y-0 dark:bg-red-800/${alpha} bg-gray-100/${alpha}` : "-translate-y-full"}`} aria-label="navbar">
 			<a href="https://cristianac.live" target="_blank" referrerPolicy="no-referrer" aria-label="portfolio-link" onClick={(e) => { if (open) { e.preventDefault(); setOpen(false) } }}>
 				<div className="flex gap-2 mt-2">
 					<img src="/images/icono.webp" alt="Logo" className="h-10 w-10 rounded-full" />
@@ -124,6 +120,10 @@ export default function NavBar({ refs }: NavProps) {
 				{
 					darkMode === 'dark' ? (
 						<>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+								className="size-6 hover:cursor-pointer fill-white" aria-label="language" data-tooltip-id="language" onClick={() => handleLngChange(locale === 'es' ? 'en' : 'es')}>
+								<path fillRule="evenodd" d="M9 2.25a.75.75 0 0 1 .75.75v1.506a49.384 49.384 0 0 1 5.343.371.75.75 0 1 1-.186 1.489c-.66-.083-1.323-.151-1.99-.206a18.67 18.67 0 0 1-2.97 6.323c.318.384.65.753 1 1.107a.75.75 0 0 1-1.07 1.052A18.902 18.902 0 0 1 9 13.687a18.823 18.823 0 0 1-5.656 4.482.75.75 0 0 1-.688-1.333 17.323 17.323 0 0 0 5.396-4.353A18.72 18.72 0 0 1 5.89 8.598a.75.75 0 0 1 1.388-.568A17.21 17.21 0 0 0 9 11.224a17.168 17.168 0 0 0 2.391-5.165 48.04 48.04 0 0 0-8.298.307.75.75 0 0 1-.186-1.489 49.159 49.159 0 0 1 5.343-.371V3A.75.75 0 0 1 9 2.25ZM15.75 9a.75.75 0 0 1 .68.433l5.25 11.25a.75.75 0 1 1-1.36.634l-1.198-2.567h-6.744l-1.198 2.567a.75.75 0 0 1-1.36-.634l5.25-11.25A.75.75 0 0 1 15.75 9Zm-2.672 8.25h5.344l-2.672-5.726-2.672 5.726Z" clipRule="evenodd" />
+							</svg>
 							<svg data-tooltip-id="theme" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
 								className="size-6 hover:cursor-pointer stroke-white outline-none focus:outline-none active:outline-none" onClick={() => setDarkMode('light')} aria-label="light-mode">
 								<path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
@@ -131,6 +131,10 @@ export default function NavBar({ refs }: NavProps) {
 						</>
 					) : (
 						<>
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+								className="size-6 hover:cursor-pointer fill-black" aria-label="language" data-tooltip-id="language" onClick={() => handleLngChange(locale === 'es' ? 'en' : 'es')}>
+								<path fillRule="evenodd" d="M9 2.25a.75.75 0 0 1 .75.75v1.506a49.384 49.384 0 0 1 5.343.371.75.75 0 1 1-.186 1.489c-.66-.083-1.323-.151-1.99-.206a18.67 18.67 0 0 1-2.97 6.323c.318.384.65.753 1 1.107a.75.75 0 0 1-1.07 1.052A18.902 18.902 0 0 1 9 13.687a18.823 18.823 0 0 1-5.656 4.482.75.75 0 0 1-.688-1.333 17.323 17.323 0 0 0 5.396-4.353A18.72 18.72 0 0 1 5.89 8.598a.75.75 0 0 1 1.388-.568A17.21 17.21 0 0 0 9 11.224a17.168 17.168 0 0 0 2.391-5.165 48.04 48.04 0 0 0-8.298.307.75.75 0 0 1-.186-1.489 49.159 49.159 0 0 1 5.343-.371V3A.75.75 0 0 1 9 2.25ZM15.75 9a.75.75 0 0 1 .68.433l5.25 11.25a.75.75 0 1 1-1.36.634l-1.198-2.567h-6.744l-1.198 2.567a.75.75 0 0 1-1.36-.634l5.25-11.25A.75.75 0 0 1 15.75 9Zm-2.672 8.25h5.344l-2.672-5.726-2.672 5.726Z" clipRule="evenodd" />
+							</svg>
 							<svg data-tooltip-id="theme" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black"
 								className="size-6 hover:cursor-pointer outline-none focus:outline-none active:outline-none" onClick={() => setDarkMode('dark')} aria-label="dark-mode">
 								<path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
@@ -139,6 +143,7 @@ export default function NavBar({ refs }: NavProps) {
 					)
 				}
 				<Tooltip id="theme" content={`Set ${darkMode === 'dark' ? 'light' : 'dark'} theme`} delayShow={500} place="bottom-start" className="z-10" />
+				<Tooltip id="language" content={`${locale === 'es' ? 'Cambiar a Inglés' : 'Change to Spanish'}`} delayShow={500} place="bottom-start" className="z-10" />
 			</div>
 			<button className="z-10 md:hidden flex items-center gap-1" aria-label="menu" aria-expanded="false" data-collapse-toggle="hamburger-menu" aria-controls="hamburger-menu" type="button" onClick={() => setOpen(true)}>
 				<span className="sr-only">Open menu</span>
@@ -157,6 +162,10 @@ export default function NavBar({ refs }: NavProps) {
 							{
 								darkMode === 'dark' ? (
 									<>
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+											className="size-6 hover:cursor-pointer fill-white" aria-label="language" data-tooltip-id="language" onClick={() => handleLngChange(locale === 'es' ? 'en' : 'es')}>
+											<path fillRule="evenodd" d="M9 2.25a.75.75 0 0 1 .75.75v1.506a49.384 49.384 0 0 1 5.343.371.75.75 0 1 1-.186 1.489c-.66-.083-1.323-.151-1.99-.206a18.67 18.67 0 0 1-2.97 6.323c.318.384.65.753 1 1.107a.75.75 0 0 1-1.07 1.052A18.902 18.902 0 0 1 9 13.687a18.823 18.823 0 0 1-5.656 4.482.75.75 0 0 1-.688-1.333 17.323 17.323 0 0 0 5.396-4.353A18.72 18.72 0 0 1 5.89 8.598a.75.75 0 0 1 1.388-.568A17.21 17.21 0 0 0 9 11.224a17.168 17.168 0 0 0 2.391-5.165 48.04 48.04 0 0 0-8.298.307.75.75 0 0 1-.186-1.489 49.159 49.159 0 0 1 5.343-.371V3A.75.75 0 0 1 9 2.25ZM15.75 9a.75.75 0 0 1 .68.433l5.25 11.25a.75.75 0 1 1-1.36.634l-1.198-2.567h-6.744l-1.198 2.567a.75.75 0 0 1-1.36-.634l5.25-11.25A.75.75 0 0 1 15.75 9Zm-2.672 8.25h5.344l-2.672-5.726-2.672 5.726Z" clipRule="evenodd" />
+										</svg>
 										<svg data-tooltip-id="theme" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
 											className="size-6 hover:cursor-pointer stroke-white" onClick={() => setDarkMode('light')} aria-label="light-mode">
 											<path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
@@ -164,6 +173,10 @@ export default function NavBar({ refs }: NavProps) {
 									</>
 								) : (
 									<>
+										<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+											className="size-6 hover:cursor-pointer fill-black" aria-label="language" data-tooltip-id="language" onClick={() => handleLngChange(locale === 'es' ? 'en' : 'es')}>
+											<path fillRule="evenodd" d="M9 2.25a.75.75 0 0 1 .75.75v1.506a49.384 49.384 0 0 1 5.343.371.75.75 0 1 1-.186 1.489c-.66-.083-1.323-.151-1.99-.206a18.67 18.67 0 0 1-2.97 6.323c.318.384.65.753 1 1.107a.75.75 0 0 1-1.07 1.052A18.902 18.902 0 0 1 9 13.687a18.823 18.823 0 0 1-5.656 4.482.75.75 0 0 1-.688-1.333 17.323 17.323 0 0 0 5.396-4.353A18.72 18.72 0 0 1 5.89 8.598a.75.75 0 0 1 1.388-.568A17.21 17.21 0 0 0 9 11.224a17.168 17.168 0 0 0 2.391-5.165 48.04 48.04 0 0 0-8.298.307.75.75 0 0 1-.186-1.489 49.159 49.159 0 0 1 5.343-.371V3A.75.75 0 0 1 9 2.25ZM15.75 9a.75.75 0 0 1 .68.433l5.25 11.25a.75.75 0 1 1-1.36.634l-1.198-2.567h-6.744l-1.198 2.567a.75.75 0 0 1-1.36-.634l5.25-11.25A.75.75 0 0 1 15.75 9Zm-2.672 8.25h5.344l-2.672-5.726-2.672 5.726Z" clipRule="evenodd" />
+										</svg>
 										<svg data-tooltip-id="theme" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black"
 											className="size-6 hover:cursor-pointer" onClick={() => setDarkMode('dark')} aria-label="dark-mode">
 											<path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
@@ -174,21 +187,16 @@ export default function NavBar({ refs }: NavProps) {
 						</div>
 					</div>
 					<ul className="mt-10 flex flex-col items-center h-full w-full space-y-4 text-gray-700 dark:text-white py-2" onClick={() => setOpen(false)}>
-						<li>
-							<a href="#home" className="hover:border p-2 hover:bg-gray-400 transition-all ease-in-out duration-150" aria-label="home">Home</a>
-						</li>
-						<li>
-							<a href="#about" className="hover:border p-2 hover:bg-gray-400 transition-all ease-in-out duration-150" aria-label="about me">About</a>
-						</li>
-						<li>
-							<a href="#projects" className="hover:border p-2 hover:bg-gray-400 transition-all ease-in-out duration-150" aria-label="pojects">Projects</a>
-						</li>
-						<li>
-							<a href="#skills" className="hover:border p-2 hover:bg-gray-400 transition-all ease-in-out duration-150" aria-label="skills">Skills</a>
-						</li>
-						<li>
-							<a href="#contact" className="hover:border p-2 hover:bg-gray-400 transition-all ease-in-out duration-150" aria-label="contact">Contact</a>
-						</li>
+						{
+							lis.map((li, index) => (
+								<li key={index}>
+									<a href={li.link} aria-label={li.arialabel} className={`p-2 ${li.current ? "font-bold underline" : ""}`}>
+										{li.arialabel.charAt(0).toUpperCase() + li.arialabel.slice(1)}
+									</a>
+								</li>
+							))
+
+						}
 					</ul>
 				</div>
 			</div>
