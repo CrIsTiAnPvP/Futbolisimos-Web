@@ -38,9 +38,9 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
   const session = await getServerSession(AuthOptions);
 
   return (
-    <html lang={locale} className="min-h-screen">
+    <html lang={locale}>
       <body className='bg-gray-100 dark:bg-gray-900'>
-        <NextIntlClientProvider locale={locale} messages={messages}>ç
+        <NextIntlClientProvider locale={locale} messages={messages}>
           <SessionProvider session={session}>
             {children}
           </SessionProvider>

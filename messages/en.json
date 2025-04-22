@@ -1,1 +1,17 @@
-{}
+{
+	"nav": {
+		"1": "Home",
+		"2": "My Leagues",
+		"3": "My Teams",
+		"4": "My Account",
+		"5": "Log In"
+	},
+	"main": {
+		"1": "Most expensive teams of the week",
+		"2": "Latest news",
+		"3": "Most active leagues of the week"
+	},
+	"misc": {
+		"1": "No data yet!"
+	}
+}

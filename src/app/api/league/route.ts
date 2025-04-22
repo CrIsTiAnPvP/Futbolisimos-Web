@@ -4,9 +4,9 @@ import { prisma } from "@/prisma";
 
 export async function GET(req: NextRequest) {
 
-	const name = req.nextUrl.searchParams.get("name");
+	const id = req.nextUrl.searchParams.get("id");
 
-	if (!name) {
+	if (!id) {
 		return NextResponse.json({ error: "No se ha enviado el nombre de la liga" }, { status: 400 });
 	}
 
@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
 
 	const liga = await prisma.liga.findFirst({
 		where: {
-			nombre: name
+			id: id,
 		}
 	})
 

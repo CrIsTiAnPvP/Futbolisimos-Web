@@ -16,7 +16,7 @@ export default function Head() {
 							alt="Banner"
 							width={1920}
 							height={1080}
-							className="w-2/5 h-auto rounded-2xl ml-35 mt-1"
+							className="w-2/5 h-14 md:h-auto rounded-2xl mt-2"
 							priority={true}
 							unoptimized
 						/>
@@ -26,7 +26,7 @@ export default function Head() {
 							alt="Banner"
 							width={1920}
 							height={1080}
-							className="w-2/5 h-auto rounded-2xl ml-35 mt-1"
+							className="w-2/5 h-14 md:h-auto rounded-2xl mt-2"
 							priority={true}
 							unoptimized
 						/>

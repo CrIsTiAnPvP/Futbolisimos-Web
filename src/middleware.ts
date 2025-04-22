@@ -9,7 +9,7 @@ const authMiddleware = withAuth((req) => intlMiddleware(req), {
 		authorized: ({ token }) => token != null
 	},
 	pages: {
-		signIn: "/auth/signin",
+		signIn: "/api/auth/signin",
 	}
 })
 
@@ -21,7 +21,8 @@ export default function middleware(req: NextRequest) {
 
 	const isPublic = ppages.some((path) => nextUrl.pathname.startsWith(path))
 	if (isPublic) return intlMiddleware(req)
-		
+	if (nextUrl.pathname.startsWith('/')) return intlMiddleware(req)
+
 	/* eslint-disable  @typescript-eslint/no-explicit-any */
 	return (authMiddleware as any)(req)
 }

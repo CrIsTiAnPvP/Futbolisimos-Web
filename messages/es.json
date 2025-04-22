@@ -1,1 +1,17 @@
-{}
+{
+	"nav": {
+		"1": "Inicio",
+		"2": "Mis Ligas",
+		"3": "Mis Equipos",
+		"4": "Mi Cuenta",
+		"5": "Iniciar Sesión"
+	},
+	"main": {
+		"1": "Equipos más caros de la semana",
+		"2": "Ultimas novedades",
+		"3": "Ligas más activas de la semana"
+	},
+	"misc": {
+		"1": "¡No hay datos aún!"
+	}
+}

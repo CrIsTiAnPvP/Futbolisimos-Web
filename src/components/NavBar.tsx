@@ -2,11 +2,19 @@
 import { useEffect, useState } from "react";
 import { Tooltip } from "react-tooltip"
 import { useRouter, usePathname } from 'next/navigation';
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import Image from "next/image"
 import "../../node_modules/flag-icons/css/flag-icons.min.css"
+import { Session } from "next-auth";
+import { signIn } from "next-auth/react";
 
-export default function NavBar() {
+interface NavBarProps {
+	session: Session | null;
+}
+
+export default function NavBar({ session }: NavBarProps) {
+
+	const t = useTranslations('nav')
 
 	const [darkMode, setDarkMode] = useState('dark')
 	const [, setTheme] = useState('light')
@@ -88,9 +96,28 @@ export default function NavBar() {
 
 	const lis = [
 		{
-			arialabel: `${locale === 'es' ? 'Inicio' : 'Home'}`,
+			arialabel: t('1'),
 			link: `/${locale}`,
 			current: pathname === `/${locale}` ? true : false,
+			authRequired: false
+		},
+		{
+			arialabel: t('2'),
+			link: `/${locale}/league`,
+			current: pathname === `/${locale}/league` ? true : false,
+			authRequired: true
+		},
+		{
+			arialabel: t('3'),
+			link: `/${locale}/team`,
+			current: pathname === `/${locale}/team` ? true : false,
+			authRequired: true
+		},
+		{
+			arialabel: t('4'),
+			link: `/${locale}/account`,
+			current: pathname === `/${locale}/account` ? true : false,
+			authRequired: true
 		}
 	]
 
@@ -98,22 +125,41 @@ export default function NavBar() {
 		<nav className={`backdrop-blur-sm flex p-2 justify-between w-full transition-transform duration-300 ${visible ? `translate-y-0 dark:bg-red-800/${alpha} bg-gray-100/${alpha}` : "-translate-y-full"}`} aria-label="navbar">
 			<a href="https://cristianac.live" target="_blank" referrerPolicy="no-referrer" aria-label="portfolio-link" onClick={(e) => { if (open) { e.preventDefault(); setOpen(false) } }}>
 				<div className="flex gap-2 mt-2">
-					<Image src="/images/icono.webp" alt="Logo" className="h-10 w-10 rounded-full" width={64} height={64}/>
+					<Image src="/images/icono.webp" alt="Logo" className="h-10 w-10 rounded-full" width={64} height={64} />
 					<h2 className="text-2xl font-bold text-center text-gray-700 dark:text-white mt-0.5">Futbolisimos</h2>
 				</div>
 			</a>
 			<ul className="hidden md:flex lg:flex justify-center space-x-4 text-gray-700 dark:text-white py-2">
 				{
-					lis.map((li, index) => (
-						<li key={index}>
-							<a href={li.link} aria-label={li.arialabel} className={`p-2 ${li.current ? "font-bold underline" : ""}`}>
-								{li.arialabel.charAt(0).toUpperCase() + li.arialabel.slice(1)}
-							</a>
-						</li>
-					))
+					lis
+						.filter(li => li.authRequired === false || (li.authRequired && session?.user?.email))
+						.map((li, index) => (
+							<li key={index}>
+								<a href={li.link} aria-label={li.arialabel} className={`p-2 ${li.current ? "font-bold underline" : ""}`}>
+									{li.arialabel.charAt(0).toUpperCase() + li.arialabel.slice(1)}
+								</a>
+							</li>
+						))
 				}
 			</ul>
-			<div className="hidden md:flex items-center gap-1">
+			<div className="hidden md:flex items-center gap-2">
+				{
+					session?.user?.image ? (
+						<Image 
+							src={session.user.image}
+							alt="user-image"
+							className="rounded-full h-10 w-10 hover:cursor-pointer mr-2"
+							width={40}
+							height={40}
+							priority={true}
+							onClick={() => router.push(`/${locale}/stats`)}
+						/>
+					) : (
+						<div className={`flex items-center gap-2 ${locale === 'en' ? 'md:ml-10': ''}`}>
+							<button onClick={() => signIn() } className="p-2 px-4 rounded-md border-[#0e1724] dark:border-white border hover:cursor-pointer active:scale-[.97] dark:text-white text-[#0e1724]">{t('5')}</button>
+						</div>
+					)
+				}
 				{
 					darkMode === 'dark' ? (
 						<>
