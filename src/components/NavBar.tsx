@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
 import { Tooltip } from "react-tooltip"
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 import Image from "next/image"
 import "../../node_modules/flag-icons/css/flag-icons.min.css"

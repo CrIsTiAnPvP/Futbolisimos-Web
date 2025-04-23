@@ -8,7 +8,6 @@ import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 
 import { SessionProvider } from "@/provider/SessionProvider";
-import { getServerSession } from "next-auth";
 import { auth } from "@/auth";
 
 import { Toaster } from "@/components/ui/sonner";

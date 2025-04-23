@@ -7,7 +7,7 @@ import { signIn } from "next-auth/react"
 import { useLocale, useTranslations } from "next-intl"
 import { redirect } from "next/navigation"
 
-export default function page() {
+export default function Page() {
 
 	const messages = useTranslations('signin')
 	const { data: session } = useSession()

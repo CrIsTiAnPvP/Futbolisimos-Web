@@ -10,7 +10,7 @@ import Eteams from '@/components/ETeams';
 
 export default function Home() {
 
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const t = useTranslations('main');
 
   useEffect(() => {
