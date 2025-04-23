@@ -13,5 +13,12 @@
 	},
 	"misc": {
 		"1": "¡No hay datos aún!"
+	},
+	"signin": {
+		"1": "Iniciar sesión",
+		"2": "Por favor, inicie sesión para continuar",
+		"3": "Iniciar sesión con Google",
+		"4": "Iniciar sesión con Github",
+		"5": "Iniciar sesión con Spotify"
 	}
 }

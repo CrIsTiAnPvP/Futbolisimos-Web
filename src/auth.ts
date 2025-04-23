@@ -1,24 +1,11 @@
 import { PrismaAdapter } from "@auth/prisma-adapter"
-import { NextAuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import Github from "next-auth/providers/github";
-import SpotifyProvider from "next-auth/providers/spotify";
-import { prisma } from "@/prisma";
+import authConfig from "./auth.config";
 
-export const AuthOptions: NextAuthOptions = {
-	providers: [
-		Github({
-			clientId: process.env.GITHUB_ID || "",
-			clientSecret: process.env.GITHUB_SECRET || "",
-		}),
-		GoogleProvider({
-			clientId: process.env.GOOGLE_ID || "",
-			clientSecret: process.env.GOOGLE_SECRET || "",
-		}),
-		SpotifyProvider({
-			clientId: process.env.SPOTIFY_ID || "",
-			clientSecret: process.env.SPOTIFY_SECRET || "",
-		})
-	],
+import { prisma } from "@/prisma";
+import NextAuth from "next-auth"
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
 	adapter: PrismaAdapter(prisma),
-}
+	session: { strategy: "jwt" },
+	...authConfig
+})

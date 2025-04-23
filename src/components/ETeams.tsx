@@ -33,7 +33,7 @@ export default function ETeams() {
 	return (
 		<>
 		{
-			data.length > 0 ? (
+			(Array.isArray(data) && data.length > 0) ? (
 				<p>a</p>
 			) : (
 				<h2 className='text-[#0e1724] dark:text-white font-semibold'>{t('1')}</h2>

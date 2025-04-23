@@ -16,13 +16,13 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  PartidosJugados   Int
-  PartidosGanados   Int
-  PartidosPerdidos  Int
-  PartidosEmpatados Int
-  PuntosTotales     Int
-  GolesFavor        Int
-  GolesContra       Int
+  PartidosJugados   Int @default(0)
+  PartidosGanados   Int @default(0)
+  PartidosPerdidos  Int @default(0)
+  PartidosEmpatados Int @default(0)
+  PuntosTotales     Int @default(0)
+  GolesFavor        Int @default(0)
+  GolesContra       Int @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -76,6 +76,8 @@ model Liga {
   miembros   String[]
   id_creador String   @db.ObjectId
   createdAt  DateTime @default(now())
+  cantidadMiembros Int @default(0) @map("cantidadMiembros")
+  privada   Boolean  @default(false)
 
   // Relacion 1-n con equipo, ya que 1 liga tiene muchos equipos y 1 equipo pertenece a una liga
   equipos Equipo[]

@@ -26,7 +26,7 @@ export default function Home() {
 
   return (
     <>
-      <Nav session={session} />
+      <Nav session={session} showLogin="si" />
       <Head />
       <div className='grid grid-cols-1 grid-rows-1 md:grid-cols-2 md:grid-rows-2 lg:grid-cols-4 lg:grid-rows-3 gap-4 mt-10 '>
         <section className='flex flex-col justify-center items-center col-span-1 row-span-1 md:row-span-2 lg:row-span-3 border rounded-md border-gray-500 dark:border-gray-700 bg-gray-300  dark:bg-gray-800 shadow-md mx-4'>

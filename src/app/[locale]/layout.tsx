@@ -9,7 +9,7 @@ import { notFound } from "next/navigation";
 
 import { SessionProvider } from "@/provider/SessionProvider";
 import { getServerSession } from "next-auth";
-import { AuthOptions } from "@/auth";
+import { auth } from "@/auth";
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -35,7 +35,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
     return notFound();
   }
   const messages = await getMessages()
-  const session = await getServerSession(AuthOptions);
+  const session = await auth();
 
   return (
     <html lang={locale}>

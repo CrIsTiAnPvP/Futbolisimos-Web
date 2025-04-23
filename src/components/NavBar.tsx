@@ -6,13 +6,14 @@ import { useLocale, useTranslations } from 'next-intl';
 import Image from "next/image"
 import "../../node_modules/flag-icons/css/flag-icons.min.css"
 import { Session } from "next-auth";
-import { signIn } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 interface NavBarProps {
 	session: Session | null;
+	showLogin?: string;
 }
 
-export default function NavBar({ session }: NavBarProps) {
+export default function NavBar({ session, showLogin }: NavBarProps) {
 
 	const t = useTranslations('nav')
 
@@ -51,24 +52,16 @@ export default function NavBar({ session }: NavBarProps) {
 		}
 	}, [darkMode])
 
-	// const scrollTo = (Element: React.RefObject<HTMLElement | null>) => {
-	// 	if (Element.current) {
-	// 		window.scrollTo({
-	// 			top: Element.current.offsetTop,
-	// 			behavior: 'smooth'
-	// 		});
-	// 	}
-	// }
-
-	const router = useRouter()
 	const pathname = usePathname()
 	const locale = useLocale()
 
 	const handleLngChange = (lng: string) => {
 		if (locale !== lng) {
-			router.push(`${pathname.replace(locale, lng)}`)
+			redirect(`${pathname.replace(locale, lng)}`)
 		}
 	}
+
+	showLogin = pathname === `/${locale}/signin` ? "no" : showLogin;
 
 	const [prevScrollPos, setPrevScrollPos] = useState(0);
 	const [visible, setVisible] = useState(true);
@@ -131,11 +124,10 @@ export default function NavBar({ session }: NavBarProps) {
 			</a>
 			<ul className="hidden md:flex lg:flex justify-center space-x-4 text-gray-700 dark:text-white py-2">
 				{
-					lis
-						.filter(li => li.authRequired === false || (li.authRequired && session?.user?.email))
+					lis.filter(li => li.authRequired === false || (li.authRequired && session?.user?.email))
 						.map((li, index) => (
 							<li key={index}>
-								<a href={li.link} aria-label={li.arialabel} className={`p-2 ${li.current ? "font-bold underline" : ""}`}>
+								<a href={li.link} aria-label={li.arialabel} className={`p-2 ${li.current ? "font-bold underline" : ""} ${(showLogin === 'no' && !session) ? "md:mr-34" : ""}`}>
 									{li.arialabel.charAt(0).toUpperCase() + li.arialabel.slice(1)}
 								</a>
 							</li>
@@ -145,18 +137,18 @@ export default function NavBar({ session }: NavBarProps) {
 			<div className="hidden md:flex items-center gap-2">
 				{
 					session?.user?.image ? (
-						<Image 
+						<Image
 							src={session.user.image}
 							alt="user-image"
 							className="rounded-full h-10 w-10 hover:cursor-pointer mr-2"
 							width={40}
 							height={40}
 							priority={true}
-							onClick={() => router.push(`/${locale}/stats`)}
+							onClick={() => redirect(`/${locale}/stats`)}
 						/>
 					) : (
-						<div className={`flex items-center gap-2 ${locale === 'en' ? 'md:ml-10': ''}`}>
-							<button onClick={() => signIn() } className="p-2 px-4 rounded-md border-[#0e1724] dark:border-white border hover:cursor-pointer active:scale-[.97] dark:text-white text-[#0e1724]">{t('5')}</button>
+						<div className={`flex items-center gap-2 ${locale === 'en' ? 'md:ml-10' : ''} ${showLogin === 'no' ? 'hidden' : ''}`}>
+							<button onClick={() => redirect(`/${locale}/signin`)} className="p-2 px-4 rounded-md border-[#0e1724] dark:border-white border hover:cursor-pointer active:scale-[.97] dark:text-white text-[#0e1724]">{t('5')}</button>
 						</div>
 					)
 				}

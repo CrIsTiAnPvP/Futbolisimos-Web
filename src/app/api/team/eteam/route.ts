@@ -3,10 +3,8 @@ import { NextResponse, NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
 	const teams = await prisma.equipo.findMany({
-		where: {
-			Valor: {
-				gt: 0
-			}
+		orderBy: {
+			Valor: "desc"
 		},
 		take: 10
 	});

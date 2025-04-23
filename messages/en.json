@@ -13,5 +13,12 @@
 	},
 	"misc": {
 		"1": "No data yet!"
+	},
+	"signin": {
+		"1": "Sign In",
+		"2": "Please sign in to continue",
+		"3": "Sign in with Google",
+		"4": "Sign in with Github",
+		"5": "Sign in with Spotify"
 	}
 }

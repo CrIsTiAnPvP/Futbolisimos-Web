@@ -1,31 +1,23 @@
 import createIntlMiddleware from "next-intl/middleware";
 import { routing } from './i18n/routing';
 import { NextRequest } from "next/server";
-import withAuth from "next-auth/middleware";
 
+import authConfig from "./auth.config";
+import NextAuth from "next-auth";
+
+const { auth } = NextAuth(authConfig)
 const intlMiddleware = createIntlMiddleware(routing)
-const authMiddleware = withAuth((req) => intlMiddleware(req), {
-	callbacks: {
-		authorized: ({ token }) => token != null
-	},
-	pages: {
-		signIn: "/api/auth/signin",
-	}
-})
 
-export default function middleware(req: NextRequest) {
+export default auth(async function middleware(req: NextRequest) {
 	const { nextUrl } = req;
 	const isApiRoute = nextUrl.pathname.startsWith('/api')
-	if (isApiRoute) return 
+	if (isApiRoute) return
 	const ppages = ["/es", "/en"]
 
 	const isPublic = ppages.some((path) => nextUrl.pathname.startsWith(path))
 	if (isPublic) return intlMiddleware(req)
 	if (nextUrl.pathname.startsWith('/')) return intlMiddleware(req)
-
-	/* eslint-disable  @typescript-eslint/no-explicit-any */
-	return (authMiddleware as any)(req)
-}
+})
 
 export const config = {
 	matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)", '/(es|en)/:path*'],

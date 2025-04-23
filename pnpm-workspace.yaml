@@ -5,3 +5,4 @@ onlyBuiltDependencies:
   - msw
   - prisma
   - sharp
+  - unrs-resolver
