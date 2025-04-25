@@ -26,7 +26,7 @@ export default function Account() {
 			setUsername(session.user.name ?? 'Guest')
 			setImage(session.user.image ?? '/images/default.webp')
 		}
-	}, [])
+	}, [session])
 
 	const handleChange = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -36,6 +36,7 @@ export default function Account() {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify({
+				id: session.user.id,
 				name: username,
 				apiKey: ApiKey,
 			}),

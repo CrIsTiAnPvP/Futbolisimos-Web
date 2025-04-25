@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/prisma";
 import { ApiKey } from "@/lib/utils";
-import { auth } from "@/auth";
 
 export async function GET(req: NextRequest) {
 	const id = req.nextUrl.searchParams.get('id')
@@ -17,13 +16,11 @@ export async function GET(req: NextRequest) {
 
 }
 
-export const POST = auth(async function POST(req) {
-	if (!req.auth) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-	const { id } = req.auth.user
-	const { name, apiKey } = await req.json()
+export async function POST(req: NextRequest) {
+	const { id, name, apiKey } = await req.json()
 
 	if (!req.headers.get('content-type')?.includes('application/json')) return NextResponse.json({ error: 'Invalid content type' }, { status: 400 });
-	if (!name || !apiKey) return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
+	if (!id || !name || !apiKey) return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
 
 	if (apiKey !== ApiKey) return NextResponse.json({ error: 'Invalid API key' }, { status: 401 });
 
@@ -48,4 +45,4 @@ export const POST = auth(async function POST(req) {
 	})
 
 	return NextResponse.json({ message: 'User updated succesfuly' }, { status: 200 });
-})
+}
