@@ -22,6 +22,12 @@
 		"5": "Sign in with Spotify"
 	},
 	"acc": {
-		"1": "Welcome {user}, to your account panel"
+		"1": "Welcome {user}, to your account panel",
+		"handler": {
+			"1": "Username changed!",
+			"2": "You can only change the name once a day",
+			"3": "An error has occurred",
+			"4": "You can't change the name to the one you already have"
+		}
 	}
 }

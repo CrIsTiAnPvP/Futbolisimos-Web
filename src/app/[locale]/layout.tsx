@@ -11,7 +11,6 @@ import { SessionProvider } from "@/provider/SessionProvider";
 import { auth } from "@/auth";
 
 import { Toaster } from "@/components/ui/sonner";
-import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Futbolisimos - Web",

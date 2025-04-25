@@ -22,6 +22,12 @@
 		"5": "Iniciar sesión con Spotify"
 	},
 	"acc": {
-		"1": "Bienvenido al panel de tu cuenta {user}"
+		"1": "Bienvenido al panel de tu cuenta {user}",
+		"handler": {
+			"1": "Nombre de usuario cambiado!",
+			"2": "Solo puedes cambiar el nombre una vez al dia",
+			"3": "Ha ocurrido un error",
+			"4": "No puedes cambiar el nombre al que ya tienes"
+		}
 	}
 }
