@@ -1,5 +1,3 @@
-import Image from "next/image"
-
 import { useLocale } from "next-intl"
 
 export default function Head() {
@@ -9,30 +7,15 @@ export default function Head() {
 	return (
 		<>
 			<div className="flex flex-col bg-gray-100 dark:bg-gray-900 w-full items-center">
-				{
-					locale === "es" ? (
-						<Image
-							src="/gif/inicio.gif"
-							alt="Banner"
-							width={1920}
-							height={1080}
-							className="w-2/5 h-14 md:h-auto rounded-2xl mt-2"
-							priority={true}
-							unoptimized
-						/>
-					) : (
-						<Image
-							src="/gif/start.gif"
-							alt="Banner"
-							width={1920}
-							height={1080}
-							className="w-2/5 h-14 md:h-auto rounded-2xl mt-2"
-							priority={true}
-							unoptimized
-						/>
-					)
-				}
-
+				<video autoPlay loop muted className="w-3/4 h-auto md:w-1/3 rounded mt-5 shadow-xl dark:shadow-lg shadow-blue-900 dark:shadow-indigo-800">
+					{
+						locale === "es" ? (
+							<source src="/gif/inicio.webm" type="video/webm" />
+						) : (
+							<source src="/gif/start.webm" type="video/webm" />
+						)
+					}
+				</video>
 			</div>
 		</>
 	)

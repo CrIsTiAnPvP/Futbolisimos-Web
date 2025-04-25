@@ -11,14 +11,12 @@ import { SessionProvider } from "@/provider/SessionProvider";
 import { auth } from "@/auth";
 
 import { Toaster } from "@/components/ui/sonner";
+import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
   title: "Futbolisimos - Web",
   description: "Web de futboleros, crea tu equipo y juega contra tus amigos",
-  authors: [{ name: "CrIsTiAnPvP", url: "https://cristianac.live" }],
-  icons: {
-    icon: "/images/icono.ico",
-  }
+  authors: [{ name: "CrIsTiAnPvP", url: "https://cristianac.live" }]
 };
 
 type RootLayoutProps = {
@@ -43,7 +41,10 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
           <SessionProvider session={session}>
             {children}
           </SessionProvider>
-          <Toaster theme="system" closeButton={true} />
+          <Toaster
+            theme="system"
+            closeButton={true}
+          />
         </NextIntlClientProvider>
       </body>
     </html>

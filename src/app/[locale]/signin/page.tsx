@@ -21,7 +21,7 @@ export default function Page() {
 		<>
 			<NavBar session={session} />
 			<div className="flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 mt-20">
-				<div className="items-center justify-center p-6 bg-gray-300 dark:bg-gray-800/30 rounded-md shadow-lg mt-10 px-12">
+				<div className="items-center justify-center p-6 bg-gray-300 dark:bg-gray-800/30 rounded-md shadow-lg mt-10 px-12 mx-2 md:mx-0">
 					<h1 className="text-4xl font-bold mb-4 text-black dark:text-white">{messages('1')}</h1>
 					<p className="text-lg mb-8 text-black dark:text-white">{messages('2')}</p>
 					<form className="flex flex-col gap-4 items-center">

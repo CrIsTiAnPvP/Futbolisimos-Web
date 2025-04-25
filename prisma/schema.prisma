@@ -71,13 +71,13 @@ model VerificationToken {
 }
 
 model Liga {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  nombre     String
-  miembros   String[]
-  id_creador String   @db.ObjectId
-  createdAt  DateTime @default(now())
-  cantidadMiembros Int @default(0) @map("cantidadMiembros")
-  privada   Boolean  @default(false)
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  nombre           String
+  miembros         String[]
+  id_creador       String   @db.ObjectId
+  createdAt        DateTime @default(now())
+  cantidadMiembros Int      @default(0) @map("cantidadMiembros")
+  privada          Boolean  @default(false)
 
   // Relacion 1-n con equipo, ya que 1 liga tiene muchos equipos y 1 equipo pertenece a una liga
   equipos Equipo[]
@@ -111,7 +111,6 @@ model Equipo {
 
   // Solo puede haber un equipo por liga y por owner, ya que no puede haber 2 equipos con el mismo owner en la misma liga
   @@unique([id_liga, id_owner])
-
   // Unicidad del nombre del equipo, ya que no puede haber 2 equipos con el mismo nombre, en la misma liga
   @@unique([id_liga, nombre])
 }

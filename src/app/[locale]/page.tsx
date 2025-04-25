@@ -41,7 +41,6 @@ export default function Home() {
           <h1 className='text-[#0e1724] dark:text-white font-bold'>{t('3')}</h1>
           <p>asd</p>
         </section>
-
       </div>
     </>
   );

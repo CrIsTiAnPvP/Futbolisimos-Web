@@ -115,7 +115,7 @@ export default function NavBar({ session, showLogin }: NavBarProps) {
 	]
 
 	return (
-		<nav className={`backdrop-blur-sm flex p-2 justify-between w-full transition-transform duration-300 ${visible ? `translate-y-0 dark:bg-red-800/${alpha} bg-gray-100/${alpha}` : "-translate-y-full"}`} aria-label="navbar">
+		<nav className={`backdrop-blur-sm flex p-2 z-10 justify-between w-full transition-transform duration-300 ${visible ? `translate-y-0 dark:bg-red-800/${alpha} bg-gray-100/${alpha}` : "-translate-y-full"} ${open ? '' : 'overflow-hidden'}`} aria-label="navbar">
 			<a href="https://cristianac.live" target="_blank" referrerPolicy="no-referrer" aria-label="portfolio-link" onClick={(e) => { if (open) { e.preventDefault(); setOpen(false) } }}>
 				<div className="flex gap-2 mt-2">
 					<Image src="/images/icono.webp" alt="Logo" className="h-10 w-10 rounded-full" width={64} height={64} />
@@ -136,9 +136,9 @@ export default function NavBar({ session, showLogin }: NavBarProps) {
 			</ul>
 			<div className="hidden md:flex items-center gap-2">
 				{
-					session?.user?.image ? (
+					session?.user ? (
 						<Image
-							src={session.user.image}
+							src={session.user.image ?? '/images/default.webp'}
 							alt="user-image"
 							className="rounded-full h-10 w-10 hover:cursor-pointer mr-2"
 							width={40}
@@ -186,14 +186,31 @@ export default function NavBar({ session, showLogin }: NavBarProps) {
 					<path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
 				</svg>
 			</button>
-			<div className={`fixed ${open ? "bg-gray-900/50 pointer-events-auto inset-0 z-10 overflow-hidden" : "pointer-events-none"}`} onClick={() => setOpen(false)}>
-				<div id="hamburger-menu" className={`fixed top-0 right-0 h-full bg-gray-100 dark:bg-gray-800 shadow-lg transform transition-transform duration-300 w-[60%] ${open ? "translate-x-0" : "translate-x-full"}`} onClick={(e) => e.stopPropagation()}>
+			<div className={`fixed ${open ? "bg-gray-300/50 dark:bg-gray-900/50 pointer-events-auto inset-0 z-10 overflow-hidden transition-opacity" : "pointer-events-none"}`} onClick={() => setOpen(false)} >
+				<div id="hamburger-menu" className={`fixed top-0 right-0 h-full bg-gray-100 dark:bg-gray-800 shadow-lg transform transition-transform duration-300 w-[75%] ${open ? "translate-x-0" : "translate-x-full"}`} onClick={(e) => e.stopPropagation()}>
 					<div className="flex justify-between items-center">
 						<span className="sr-only">Close menu</span>
 						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="size-6 dark:stroke-white stroke-black hover:cursor-pointer mt-5 ml-3" aria-label="close-menu" onClick={() => setOpen(false)}>
 							<path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
 						</svg>
 						<div className="flex gap-2 mr-3 mt-5">
+							{
+								session?.user?.image ? (
+									<Image
+										src={session.user.image}
+										alt="user-image"
+										className="rounded-full h-7 w-7 hover:cursor-pointer mr-2"
+										width={20}
+										height={20}
+										priority={true}
+										onClick={() => redirect(`/${locale}/stats`)}
+									/>
+								) : (
+									<div className={`flex items-center gap-2`}>
+										<button onClick={() => redirect(`/${locale}/signin`)} className="px-4 rounded-md border-[#0e1724] dark:border-white border hover:cursor-pointer active:scale-[.97] dark:text-white text-[#0e1724]">{t('5')}</button>
+									</div>
+								)
+							}
 							{
 								darkMode === 'dark' ? (
 									<>
@@ -221,15 +238,16 @@ export default function NavBar({ session, showLogin }: NavBarProps) {
 							}
 						</div>
 					</div>
-					<ul className="mt-10 flex flex-col items-center h-full w-full space-y-4 text-gray-700 dark:text-white py-2" onClick={() => setOpen(false)}>
+					<ul className="z-10 pt-10 flex flex-col items-center h-screen w-full space-y-4 text-gray-700 dark:text-white py-2 bg-gray-100/90 dark:bg-gray-800/95" onClick={() => setOpen(false)}>
 						{
-							lis.map((li, index) => (
-								<li key={index}>
-									<a href={li.link} aria-label={li.arialabel} className={`p-2 ${li.current ? "font-bold underline" : ""}`}>
-										{li.arialabel.charAt(0).toUpperCase() + li.arialabel.slice(1)}
-									</a>
-								</li>
-							))
+							lis.filter(li => li.authRequired === false || (li.authRequired && session?.user?.email))
+								.map((li, index) => (
+									<li key={index}>
+										<a href={li.link} aria-label={li.arialabel} className={`p-2 ${li.current ? "font-bold underline" : ""}`}>
+											{li.arialabel.charAt(0).toUpperCase() + li.arialabel.slice(1)}
+										</a>
+									</li>
+								))
 
 						}
 					</ul>

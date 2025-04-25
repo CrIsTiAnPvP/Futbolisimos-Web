@@ -20,5 +20,8 @@
 		"3": "Iniciar sesión con Google",
 		"4": "Iniciar sesión con Github",
 		"5": "Iniciar sesión con Spotify"
+	},
+	"acc": {
+		"1": "Bienvenido al panel de tu cuenta {user}"
 	}
 }
