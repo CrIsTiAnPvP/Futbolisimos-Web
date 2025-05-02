@@ -57,6 +57,30 @@
 			"3": "No changes were made to the league",
 			"4": "An error occurred while creating the league",
 			"5": "The league {name} already exists"
+		},
+		"preview": {
+			"1": "Miembros: {count} de {max}",
+			"2": "Creada el {date}",
+			"3": "Privada: {private, select, true {Sí} false {No} other {No}}"
+		},
+		"view": {
+			"1": "League information: {name}",
+			"2": "Members: {count} of {max}",
+			"3": "Created on {date}",
+			"4": "Private: {private, select, true {Yes} false {No} other {No}}",
+			"5": "Member list",
+			"6": "There are no members in this league",
+			"7": "{type, select, true {Owner} false {Member} other {Member}}",
+			"8": "Edit League",
+			"9": "Invitations",
+			"10": "Pending invitations",
+			"11": "Admin menu",
+			"12": "Delete League",
+			"13": "Are you sure you want to delete the league {name}?",
+			"14": "This action cannot be undone",
+			"15": "Delete League",
+			"16": "Cancel",
+			"17": "Team List"
 		}
 	}
 }
