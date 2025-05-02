@@ -29,5 +29,58 @@
 			"3": "Ha ocurrido un error",
 			"4": "No puedes cambiar el nombre al que ya tienes"
 		}
+	},
+	"league": {
+		"1": "Ligas a las que perteneces",
+		"2": "Aún no perteneces a ninguna liga",
+		"3": "Crear nueva liga",
+		"4": "Espera a que te inviten a una liga",
+		"err": "Ha ocurrido un error",
+		"create": {
+			"name": "Debes introducir el nombre de la liga",
+			"nameMax": "El nombre de la liga no puede tener más de 40 caracteres",
+			"description": "Debes introducir la descripcion de la liga",
+			"descriptionMax": "La descripcion de la liga no puede tener más de 400 caracteres",
+			"image": "Debes introducir la URL de la imagen de la liga",
+			"imageSecure": "La URL de la imagen de la liga debe ser segura (https)",
+			"maxMembers": "Debes introducir el número máximo de miembros (entre 2 y 50)",
+			"1": "Introduce el nombre de la liga",
+			"2": "Introduce la descripción de la liga",
+			"3": "Introduce la URL de la imagen de la liga",
+			"4": "Introduce el número máximo de miembros (entre 2 y 50)",
+			"5": "Liga privada?",
+			"6": "Crear liga: {name}"
+		},
+		"handler": {
+			"1": "Liga creada correctamente",
+			"2": "No tienes permiso para actualizar esta liga",
+			"3": "No se realizaron cambios en la liga",
+			"4": "Ha ocurrido un error al crear la liga",
+			"5": "La liga {name} ya existe"
+		},
+		"preview": {
+			"1": "Miembros: {count} de {max}",
+			"2": "Creada el {date}",
+			"3": "Privada: {private, select, true {Sí} false {No} other {No}}"
+		},
+		"view":{
+			"1": "Información de la liga: {name}",
+			"2": "Miembros: {count} de {max}",
+			"3": "Creada el {date}",
+			"4": "Privada: {private, select, true {Sí} false {No} other {No}}",
+			"5": "Lista de miembros",
+			"6": "No hay miembros en esta liga",
+			"7": "{type, select, true {Dueño} false {Miembro} other {Miembro}}",
+			"8": "Editar Liga",
+			"9": "Invitaciones",
+			"10": "Invitaciones pendientes",
+			"11": "Menú de administrador",
+			"12": "Eliminar Liga",
+			"13": "¿Estás seguro de que quieres eliminar la liga {name}?",
+			"14": "Esta acción no se puede deshacer",
+			"15": "Eliminar Liga",
+			"16": "Cancelar",
+			"17": "Lista de Equipos"
+		}
 	}
 }

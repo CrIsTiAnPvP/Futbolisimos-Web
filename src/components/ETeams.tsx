@@ -12,7 +12,6 @@ export default function ETeams() {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
-				'Accept-Language': 'en-US',
 			},
 		})
 			.then((response) => {

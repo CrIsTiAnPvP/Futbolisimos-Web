@@ -7,23 +7,23 @@ export async function GET(req: NextRequest) {
 	const id = req.nextUrl.searchParams.get("id");
 	
 	if (!id) {
-		return NextResponse.json({ error: "No se ha enviado el id de la liga" }, { status: 400 });
+		return NextResponse.json({ error: "No se ha enviado el id del usuario" }, { status: 400 });
 	}
 	
 	if (req.headers.get("content-type") !== "application/json") {
 		return NextResponse.json({ error: "El contenido debe ser application/json" }, { status: 415 });
 	}
 
-	const liga = await prisma.liga.findFirst({
+	const user = await prisma.user.findFirst({
 		where: {
 			id: id,
 		}
 	})
 
-	if (!liga) {
-		return NextResponse.json({ error: "No existe una liga con ese id" }, { status: 404 });
+	if (!user) {
+		return NextResponse.json({ error: "No existe una usuario con ese id" }, { status: 404 });
 	}
 
-	return NextResponse.json({ liga }, { status: 200 });
+	return NextResponse.json({ user }, { status: 200 });
 
 }

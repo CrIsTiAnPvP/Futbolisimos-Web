@@ -29,5 +29,34 @@
 			"3": "An error has occurred",
 			"4": "You can't change the name to the one you already have"
 		}
+	},
+	"league": {
+		"1": "Leagues you belong to",
+		"2": "You don't belong to any league yet",
+		"3": "Create new league",
+		"4": "Wait to be invited to a league",
+		"err": "An error has occurred",
+		"create": {
+			"name": "You must enter the league name",
+			"nameMax": "The league name cannot exceed 40 characters",
+			"description": "You must enter the league description",
+			"descriptionMax": "The league description cannot exceed 400 characters",
+			"image": "You must enter the league image URL",
+			"imageSecure": "The league image URL must be secure (https)",
+			"maxMembers": "You must enter the maximum number of members (between 2 and 50)",
+			"1": "Enter the league name",
+			"2": "Enter the league description",
+			"3": "Enter the league image URL",
+			"4": "Enter the maximum number of members (between 2 and 50)",
+			"5": "Private league?",
+			"6": "Create league: {name}"
+		},
+		"handler": {
+			"1": "League created successfully",
+			"2": "You don't have permission to update this league",
+			"3": "No changes were made to the league",
+			"4": "An error occurred while creating the league",
+			"5": "The league {name} already exists"
+		}
 	}
 }

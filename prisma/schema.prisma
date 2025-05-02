@@ -24,6 +24,16 @@ model User {
   GolesFavor        Int @default(0)
   GolesContra       Int @default(0)
 
+  //Relaciones con las invitaciones realizadas por el usuario
+  InvitacionesRealizadas Invitacion[] @relation("UsuarioInvitacion")
+
+  //Relaciones con las invitaciones recibidas por el usuario
+  InvitacionesRecibidas Invitacion[] @relation("UsuarioInvitado")
+
+  // Relacion m-n con liga, ya que 1 usuario tiene muchas ligas y 1 liga tiene muchos usuarios
+  Ligas    Liga[]   @relation(fields: [IdsLigas], references: [id])
+  IdsLigas String[] @db.ObjectId
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -73,17 +83,30 @@ model VerificationToken {
 model Liga {
   id               String   @id @default(auto()) @map("_id") @db.ObjectId
   nombre           String
-  miembros         String[]
   id_creador       String   @db.ObjectId
   createdAt        DateTime @default(now())
   cantidadMiembros Int      @default(0) @map("cantidadMiembros")
   privada          Boolean  @default(false)
+  imagen           String?
+  descripcion      String?
+  usuariosMaximos  Int      @default(20)
+  inviteLink       String?
+
+  // Relacion con las invitaciones, ya que 1 liga tiene muchas invitaciones y 1 invitacion pertenece a una liga
+  Invitaciones Invitacion[]
+
+  // Relacion m-n con usuarios, ya que 1 liga tiene muchos usuarios y 1 usuario puede estar en muchas ligas
+  Usuarios    User[]   @relation(fields: [IdsUsuarios], references: [id])
+  IdsUsuarios String[] @db.ObjectId
 
   // Relacion 1-n con equipo, ya que 1 liga tiene muchos equipos y 1 equipo pertenece a una liga
   equipos Equipo[]
 
   // Relacion 1-1 con mercado, ya que 1 liga tiene un mercado y 1 mercado pertenece a una liga
   mercado Mercado @relation(fields: [id], references: [id_liga], onDelete: Cascade)
+
+  // Relacion 1-n con partido, ya que 1 liga tiene muchos partidos y 1 partido pertenece a una liga
+  partidos Partido[]
 }
 
 model Equipo {
@@ -108,6 +131,9 @@ model Equipo {
   liga Liga @relation(fields: [id_liga], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
+
+  Partido   Partido? @relation(fields: [partidoId], references: [id])
+  partidoId String?  @db.ObjectId
 
   // Solo puede haber un equipo por liga y por owner, ya que no puede haber 2 equipos con el mismo owner en la misma liga
   @@unique([id_liga, id_owner])
@@ -193,4 +219,45 @@ model Operacion {
 
   // Relacion 1-n con mercado, ya que 1 operacion tiene un mercado y 1 mercado tiene muchas operaciones
   Mercado Mercado @relation(fields: [id_mercado], references: [id], onDelete: Cascade)
+}
+
+model Partido {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  id_liga    String @db.ObjectId
+  id_equipo1 String @db.ObjectId
+  id_equipo2 String @db.ObjectId
+
+  golesEquipo1 Int
+  golesEquipo2 Int
+
+  fecha DateTime
+
+  // Relacion 1-1 con liga, ya que 1 partido tiene una liga y 1 liga tiene muchos partidos
+  Liga Liga @relation(fields: [id_liga], references: [id], onDelete: Cascade)
+
+  // Relacion 1-2 con equipo, ya que 1 partido tiene 2 equipos y 1 equipo tiene muchos partidos
+  Equipos Equipo[]
+}
+
+model Invitacion {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  id_liga        String    @db.ObjectId
+  id_usuario     String    @db.ObjectId
+  id_invitado    String    @db.ObjectId
+  pendiente      Boolean   @default(true)
+  aceptada       Boolean   @default(false)
+  rechazada      Boolean   @default(false)
+  fecha          DateTime  @default(now())
+  fechaAceptada  DateTime?
+  fechaRechazada DateTime?
+  fechaCaducidad DateTime?
+
+  // Relacion 1-1 con liga, ya que 1 invitacion tiene una liga y 1 liga tiene muchas invitaciones
+  Liga Liga @relation(fields: [id_liga], references: [id], onDelete: Cascade)
+
+  // Relacion 1-1 con usuario, ya que 1 invitacion tiene un usuario y 1 usuario tiene muchas invitaciones
+  Usuario User @relation("UsuarioInvitacion", fields: [id_usuario], references: [id], onDelete: Cascade)
+
+  // Relacion 1-1 con invitado, ya que 1 invitacion tiene un invitado y 1 invitado tiene muchas invitaciones
+  Invitado User @relation("UsuarioInvitado", fields: [id_invitado], references: [id], onDelete: Cascade)
 }
