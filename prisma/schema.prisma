@@ -2,6 +2,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator erd {
+  provider = "prisma-erd-generator"
+}
+
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
@@ -27,8 +31,9 @@ model User {
   //Relaciones con las invitaciones realizadas por el usuario
   InvitacionesRealizadas Invitacion[] @relation("UsuarioInvitacion")
 
-  //Relaciones con las invitaciones recibidas por el usuario
-  InvitacionesRecibidas Invitacion[] @relation("UsuarioInvitado")
+  // Relacion 1-n con invitaciones, ya que 1 usuario tiene muchas invitaciones y 1 invitacion pertenece a un usuario
+  InvitacionesRecibidas   Invitacion[] @relation("UsuarioInvitado", fields: [InvitacionesRecibidasId], references: [id])
+  InvitacionesRecibidasId String[]     @db.ObjectId
 
   // Relacion m-n con liga, ya que 1 usuario tiene muchas ligas y 1 liga tiene muchos usuarios
   Ligas    Liga[]   @relation(fields: [IdsLigas], references: [id])
@@ -90,7 +95,6 @@ model Liga {
   imagen           String?
   descripcion      String?
   usuariosMaximos  Int      @default(20)
-  inviteLink       String?
 
   // Relacion con las invitaciones, ya que 1 liga tiene muchas invitaciones y 1 invitacion pertenece a una liga
   Invitaciones Invitacion[]
@@ -240,24 +244,18 @@ model Partido {
 }
 
 model Invitacion {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  id_liga        String    @db.ObjectId
-  id_usuario     String    @db.ObjectId
-  id_invitado    String    @db.ObjectId
-  pendiente      Boolean   @default(true)
-  aceptada       Boolean   @default(false)
-  rechazada      Boolean   @default(false)
-  fecha          DateTime  @default(now())
-  fechaAceptada  DateTime?
-  fechaRechazada DateTime?
-  fechaCaducidad DateTime?
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  id_liga       String   @db.ObjectId
+  fechaCreacion DateTime @default(now())
 
-  // Relacion 1-1 con liga, ya que 1 invitacion tiene una liga y 1 liga tiene muchas invitaciones
+  // Relacion 1-1 con usuario, ya que 1 invitacion la crea un usuario y 1 usuario crea una invitacion
+  invitador    User?  @relation("UsuarioInvitacion", fields: [id_invitador], references: [id], onDelete: Cascade)
+  id_invitador String @db.ObjectId
+
+  // Relacion 1-n con usuarios, ya que 1 invitacion tiene muchos usuarios y 1 usuario tiene muchas invitaciones
+  invitados    User[]   @relation("UsuarioInvitado", fields: [id_invitados], references: [id])
+  id_invitados String[] @db.ObjectId
+
+  // Relacion 1-n con liga, ya que 1 invitacion tiene una liga y 1 liga tiene muchas invitaciones
   Liga Liga @relation(fields: [id_liga], references: [id], onDelete: Cascade)
-
-  // Relacion 1-1 con usuario, ya que 1 invitacion tiene un usuario y 1 usuario tiene muchas invitaciones
-  Usuario User @relation("UsuarioInvitacion", fields: [id_usuario], references: [id], onDelete: Cascade)
-
-  // Relacion 1-1 con invitado, ya que 1 invitacion tiene un invitado y 1 invitado tiene muchas invitaciones
-  Invitado User @relation("UsuarioInvitado", fields: [id_invitado], references: [id], onDelete: Cascade)
 }

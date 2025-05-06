@@ -31,6 +31,11 @@ export async function POST(req: NextRequest) {
 			Usuarios: {
 				connect: { id: id }
 			},
+			Invitaciones: {
+				create: {
+					id_invitador: id,
+				}
+			},
 			cantidadMiembros: 1,
 		}
 	});
@@ -41,7 +46,7 @@ export async function POST(req: NextRequest) {
 		}
 	})
 
-	if (league) return NextResponse.json({ message: 'League created successfully' }, { status: 200 });
+	if (league) return NextResponse.json({ message: 'League created successfully', league }, { status: 200 });
 	
 	return NextResponse.json({ error: 'No changes made' }, { status: 400 });
 }

@@ -25,7 +25,7 @@ export default function League() {
 	if (!session) {
 		redirect(`/${locale}/signin`)
 	}
-	
+
 	useEffect(() => {
 		fetch(`/api/user/${session.user.id}/leagues`, {
 			method: 'GET',
@@ -116,7 +116,7 @@ export default function League() {
 											</div>
 										</div>
 										<div className="flex justify-center mt-4">
-											<p className="rounded-sm bg-gray-800/50 dark:text-white whitespace-pre-line">{liga.descripcion}</p>
+											<p className="rounded-sm bg-gray-300/70 dark:bg-gray-800/50 dark:text-white whitespace-pre-line px-1">{liga.descripcion}</p>
 
 										</div>
 									</div>

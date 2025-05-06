@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation"
 import { getLocale } from "next-intl/server"
 
 import Nav from "@/components/NavBar"
-import ViewLeague from "@/components/ViewLeague"
+import ViewInvites from "@/components/ViewInvites"
 
 async function getLeague(id: string) {
 	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/league?id=${id}`, {
@@ -24,7 +24,7 @@ export default async function View({ params }: { params: Promise<{ id: string }>
 	const session = await auth()
 
 	const locale = getLocale()
-	
+
 	if (!session) {
 		redirect(`/${locale}/signin`)
 	}
@@ -41,7 +41,7 @@ export default async function View({ params }: { params: Promise<{ id: string }>
 	return (
 		<>
 			<Nav session={session} />
-			<ViewLeague id={id}/>
+			<ViewInvites id={id} />
 		</>
 	)
 }

@@ -71,6 +71,7 @@ export default function Create() {
 		const response = await res.json()
 		if (res.status === 200) {
 			toast.success(handler('1'))
+			redirect(`/${locale}/league/${response.league.id}/view`)
 		} else if (res.status === 403) {
 			toast.error(handler('2'))
 		} else if (response.error === 'No changes made') {

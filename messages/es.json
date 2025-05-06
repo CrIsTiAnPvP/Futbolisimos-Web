@@ -80,7 +80,11 @@
 			"14": "Esta acción no se puede deshacer",
 			"15": "Eliminar Liga",
 			"16": "Cancelar",
-			"17": "Lista de Equipos"
+			"17": "Lista de Equipos",
+			"18": "Liga eliminada correctamente",
+			"19": "No tienes permiso para eliminar esta liga",
+			"20": "No se realizaron cambios en la liga",
+			"21": "Ha ocurrido un error al eliminar la liga"
 		}
 	}
 }

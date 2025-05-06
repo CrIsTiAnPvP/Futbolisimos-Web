@@ -11,7 +11,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import type { Liga, User } from "@prisma/client"
 import { ApiKey } from "@/lib/utils";
 
-export default function ViewLeague({ id }: { id: string }) {
+export default function ViewInvites({ id }: { id: string }) {
 
 	const { data: session } = useSession()
 	const [liga, setLiga] = useState<Liga>({
@@ -27,13 +27,11 @@ export default function ViewLeague({ id }: { id: string }) {
 		usuariosMaximos: 0,
 		inviteLink: null
 	})
+	const [invites, setInvites] = useState<string[]>([])
 	const [userids, setUserids] = useState<string[]>([])
 	const [users, setUsers] = useState<User[]>([])
-	// const [teams, setTeams] = useState([])
-	// const [matches, setMatches] = useState([])
 	const [loading, setLoading] = useState(true)
 	const [loading2, setLoading2] = useState(true)
-	const [loading3] = useState(true)
 	const [error, setError] = useState<string | null>(null)
 	const t = useTranslations('league.view')
 	const locale = useLocale()
@@ -54,13 +52,17 @@ export default function ViewLeague({ id }: { id: string }) {
 			}
 			const data = await res.json();
 			setLiga(data.liga as Liga);
-			setUserids(data.liga.IdsUsuarios as string[]);
+			setInvites(data.liga.Invitaciones as string[]);
 		}).catch((err) => {
 			setError(err.message);
 		}).finally(() => {
 			setLoading(false);
 		});
 	}, [id, locale])
+
+	useEffect(() => {
+		if (invites.length === 0) return
+	})
 
 	useEffect(() => {
 		const uniqueUserIds = [...new Set(userids)];
@@ -120,11 +122,11 @@ export default function ViewLeague({ id }: { id: string }) {
 					<div className="flex items-center justify-center gap-4">
 						<button
 							className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 hover:cursor-pointer active:scale-[.97] transform duration-200"
-							onClick={() => { redirect(`/${locale}/league/${liga.id}/invites`) }}
+							onClick={() => { redirect(`/${locale}/leagues/${liga.id}/invites`) }}
 						>{t('9')}</button>
 						<button
 							className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 hover:cursor-pointer active:scale-[.97] transform duration-200"
-							onClick={() => { redirect(`/${locale}/league/${liga.id}/edit`) }}
+							onClick={() => { redirect(`/${locale}/leagues/${liga.id}/edit`) }}
 						>{t('8')}</button>
 						<AlertDialog>
 							<AlertDialogTrigger className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 hover:cursor-pointer active:scale-[.97] transform duration-200">{t('12')}</AlertDialogTrigger>
@@ -203,50 +205,6 @@ export default function ViewLeague({ id }: { id: string }) {
 							}
 							{
 								loading2 ? (
-									<div className="flex items-center justify-center w-full p-2 md:p-5 gap-4 md:gap-10">
-										<Skeleton className="h-20 w-18 rounded-sm bg-gray-300 dark:bg-gray-700 dark:text-white" />
-										<div className="flex flex-col justify-center gap-1">
-											<Skeleton className="h-6 w-56 bg-gray-300 dark:bg-gray-700 dark:text-white" />
-											<div className="flex justify-between">
-												<div className="flex flex-col gap-1">
-													<Skeleton className="h-6 w-20 bg-gray-300 dark:bg-gray-700 dark:text-white" />
-													<Skeleton className="h-6 w-20 bg-gray-300 dark:bg-gray-700 dark:text-white" />
-												</div>
-												<Skeleton className="h-6 w-24 bg-gray-300 dark:bg-gray-700 dark:text-white" />
-											</div>
-										</div>
-									</div>
-								) : (
-									users.length > 0 ? (
-										users.map((user) => {
-											return (
-												<div key={user.id} className="flex items-center justify-between w-full p-2 md:p-5 gap-4 md:gap-10 border-b border-t border-gray-300 dark:border-blue-900">
-													<div className="flex items-center gap-4">
-														<Image
-															src={user.image ?? '/images/default.webp'}
-															alt={user.name ?? 'default'}
-															width={64}
-															height={64}
-															className="rounded-md border border-gray-300 dark:border-blue-900 shadow-xl shadow-gray-400/50 dark:shadow-blue-950/50"
-														/>
-														<h1 className="text-lg font-semibold dark:text-white">{user.name}</h1>
-													</div>
-													<p className="text-gray-500 dark:text-gray-400">{t('7', { type: String(liga.id_creador === user.id) })}</p>
-												</div>
-											)
-										})
-									) : (
-										<p>No hay</p>
-									)
-								)
-							}
-						</div>
-					</div>
-					<div className="flex flex-col items-center justify-center w-full p-2 md:p-5 gap-4 md:gap-10">
-						<h1 className="text-2xl font-semibold dark:text-white">{t('6')}</h1>
-						<div className="flex flex-col items-center justify-center w-full p-2 md:p-5 gap-4 md:gap-10">
-							{
-								loading3 ? (
 									<div className="flex items-center justify-center w-full p-2 md:p-5 gap-4 md:gap-10">
 										<Skeleton className="h-20 w-18 rounded-sm bg-gray-300 dark:bg-gray-700 dark:text-white" />
 										<div className="flex flex-col justify-center gap-1">

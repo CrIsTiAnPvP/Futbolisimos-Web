@@ -3,7 +3,7 @@ import { prisma } from '@/prisma';
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 
-	const id  = (await params).id
+	const id = (await params).id
 
 	if (!req.headers.get('content-type')?.includes('application/json')) return NextResponse.json({ error: 'Invalid content type' }, { status: 400 });
 	if (!id) return NextResponse.json({ error: 'No id provided' }, { status: 400 });
