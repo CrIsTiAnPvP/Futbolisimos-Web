@@ -24,6 +24,8 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ l
 
 	if (!invitacion) return NextResponse.json({ error: "Invitation not found" }, { status: 404 });
 
+	if (invitacion.id_usuarios_pendientes.length > 0) return NextResponse.json({ error: "Cannot delete invitation with pending users" }, { status: 400 });
+
 	await prisma.invitacion.delete({
 		where: {
 			id: id,

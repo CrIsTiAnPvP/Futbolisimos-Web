@@ -23,6 +23,9 @@
 	},
 	"acc": {
 		"1": "Bienvenido al panel de tu cuenta {user}",
+		"2": "Nombre de usuario",
+		"3": "Guardar",
+		"4": "Cerrar sesión",
 		"handler": {
 			"1": "Nombre de usuario cambiado!",
 			"2": "Solo puedes cambiar el nombre una vez al dia",
@@ -63,7 +66,7 @@
 			"2": "Creada el {date}",
 			"3": "Privada: {private, select, true {Sí} false {No} other {No}}"
 		},
-		"view":{
+		"view": {
 			"1": "Información de la liga: {name}",
 			"2": "Miembros: {count} de {max}",
 			"3": "Creada el {date}",
@@ -85,6 +88,35 @@
 			"19": "No tienes permiso para eliminar esta liga",
 			"20": "No se realizaron cambios en la liga",
 			"21": "Ha ocurrido un error al eliminar la liga"
+		},
+		"invites": {
+			"1": "Invitaciones de la liga: {name}",
+			"2": "Invitacion copiada con éxito",
+			"3": "Has sido invitado a la liga {name}",
+			"4": "Invitaciones de liga",
+			"5": "¿Quieres unirte, o quieres rechazar la invitación?",
+			"6": {
+				"accept": "Unirse a la liga",
+				"reject": "Rechazar invitación"
+			},
+			"7": "La invitación ha expirado o no se puede usar más",
+			"8": "Invitación aceptada, espera a que el dueño te acepte",
+			"9": "Se ha aceptado la invitación",
+			"10": "Usuarios pendientes de aceptar",
+			"11": "Copiar invitación",
+			"12": "{usos, plural, =0 {No quedan usos} =1 {Queda 1 uso} other {Quedan # usos}}",
+			"13": "Crear invitación",
+			"14": "Eliminar invitación",
+			"15": "¿Estás seguro de que quieres eliminar la invitación?",
+			"16": "Esta acción no se puede deshacer",
+			"17": "Cancelar",
+			"18": "Invitación eliminada correctamente",
+			"19": "Ha ocurrido un error al eliminar la invitación",
+			"20": "Usuarios pendientes de aceptar",
+			"21": "Aceptar invitación",
+			"22": "Rechazar invitación",
+			"23": "Usuario aceptado",
+			"24": "Ha ocurrido un error al aceptar la invitación"
 		}
 	}
 }

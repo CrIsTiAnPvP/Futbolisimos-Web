@@ -35,6 +35,12 @@ model User {
   InvitacionesRecibidas   Invitacion[] @relation("UsuarioInvitado", fields: [InvitacionesRecibidasId], references: [id])
   InvitacionesRecibidasId String[]     @db.ObjectId
 
+  // Relacion m-n con invitaciones, ya que 1 usuario tiene muchas invitaciones pendientes y muchas invitaciones aceptadas y ambas pertenecen a varios usuarios
+  InvitacionesPendientes   Invitacion[] @relation("UsuarioPendiente", fields: [InvitacionesPendientesId], references: [id])
+  InvitacionesPendientesId String[]     @db.ObjectId
+  InvitacionesAceptadas    Invitacion[] @relation("UsuarioAceptado", fields: [InvitacionesAceptadasId], references: [id])
+  InvitacionesAceptadasId  String[]     @db.ObjectId
+
   // Relacion m-n con liga, ya que 1 usuario tiene muchas ligas y 1 liga tiene muchos usuarios
   Ligas    Liga[]   @relation(fields: [IdsLigas], references: [id])
   IdsLigas String[] @db.ObjectId
@@ -247,6 +253,8 @@ model Invitacion {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   id_liga       String   @db.ObjectId
   fechaCreacion DateTime @default(now())
+  usosMaximos  Int      @default(1)
+  usosRestantes Int      @default(1)
 
   // Relacion 1-1 con usuario, ya que 1 invitacion la crea un usuario y 1 usuario crea una invitacion
   invitador    User?  @relation("UsuarioInvitacion", fields: [id_invitador], references: [id], onDelete: Cascade)
@@ -255,6 +263,11 @@ model Invitacion {
   // Relacion 1-n con usuarios, ya que 1 invitacion tiene muchos usuarios y 1 usuario tiene muchas invitaciones
   invitados    User[]   @relation("UsuarioInvitado", fields: [id_invitados], references: [id])
   id_invitados String[] @db.ObjectId
+
+  Usuarios_pendientes    User[]   @relation("UsuarioPendiente", fields: [id_usuarios_pendientes], references: [id])
+  id_usuarios_pendientes String[] @db.ObjectId
+  Usuarios_aceptados     User[]   @relation("UsuarioAceptado", fields: [id_usuarios_aceptados], references: [id])
+  id_usuarios_aceptados  String[] @db.ObjectId
 
   // Relacion 1-n con liga, ya que 1 invitacion tiene una liga y 1 liga tiene muchas invitaciones
   Liga Liga @relation(fields: [id_liga], references: [id], onDelete: Cascade)

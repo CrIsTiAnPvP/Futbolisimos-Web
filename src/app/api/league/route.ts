@@ -21,6 +21,12 @@ export async function GET(req: NextRequest) {
 	const liga = await prisma.liga.findFirst({
 		where: {
 			id: id,
+		},
+		include: {
+			Invitaciones: true,
+			equipos: true,
+			mercado: true,
+			partidos: true
 		}
 	})
 

@@ -17,6 +17,24 @@ export async function GET(req: NextRequest) {
 	const user = await prisma.user.findFirst({
 		where: {
 			id: id,
+		},
+		select: {
+			id: true,
+			name: true,
+			image: true,
+			PartidosJugados: true,
+			PartidosGanados: true,
+			PartidosPerdidos: true,
+			PartidosEmpatados: true,
+			PuntosTotales: true,
+			GolesFavor: true,
+			GolesContra: true,
+			InvitacionesRecibidasId: true,
+			InvitacionesPendientesId: true,
+			InvitacionesAceptadasId: true,
+			IdsLigas: true,
+			createdAt: true,
+			updatedAt: true,
 		}
 	})
 

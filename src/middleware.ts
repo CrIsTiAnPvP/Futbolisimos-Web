@@ -11,7 +11,7 @@ const intlMiddleware = createIntlMiddleware(routing)
 export default auth(async function middleware(req: NextRequest) {
 	const { nextUrl } = req;
 	const isApiRoute = nextUrl.pathname.startsWith('/api')
-	if (isApiRoute) return
+	if (isApiRoute) return 
 	const ppages = ["/es", "/en"]
 
 	const isPublic = ppages.some((path) => nextUrl.pathname.startsWith(path))

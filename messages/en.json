@@ -4,7 +4,7 @@
 		"2": "My Leagues",
 		"3": "My Teams",
 		"4": "My Account",
-		"5": "Log In"
+		"5": "Sign In"
 	},
 	"main": {
 		"1": "Most expensive teams of the week",
@@ -22,12 +22,15 @@
 		"5": "Sign in with Spotify"
 	},
 	"acc": {
-		"1": "Welcome {user}, to your account panel",
+		"1": "Welcome to your account panel {user}",
+		"2": "Username",
+		"3": "Save",
+		"4": "Sign Out",
 		"handler": {
 			"1": "Username changed!",
-			"2": "You can only change the name once a day",
-			"3": "An error has occurred",
-			"4": "You can't change the name to the one you already have"
+			"2": "You can only change your username once a day",
+			"3": "An error occurred",
+			"4": "You cannot change to the username you already have"
 		}
 	},
 	"league": {
@@ -35,7 +38,7 @@
 		"2": "You don't belong to any league yet",
 		"3": "Create new league",
 		"4": "Wait to be invited to a league",
-		"err": "An error has occurred",
+		"err": "An error occurred",
 		"create": {
 			"name": "You must enter the league name",
 			"nameMax": "The league name cannot exceed 40 characters",
@@ -59,9 +62,9 @@
 			"5": "The league {name} already exists"
 		},
 		"preview": {
-			"1": "Miembros: {count} de {max}",
-			"2": "Creada el {date}",
-			"3": "Privada: {private, select, true {Sí} false {No} other {No}}"
+			"1": "Members: {count} of {max}",
+			"2": "Created on {date}",
+			"3": "Private: {private, select, true {Yes} false {No} other {No}}"
 		},
 		"view": {
 			"1": "League information: {name}",
@@ -80,7 +83,40 @@
 			"14": "This action cannot be undone",
 			"15": "Delete League",
 			"16": "Cancel",
-			"17": "Team List"
+			"17": "Team List",
+			"18": "League deleted successfully",
+			"19": "You don't have permission to delete this league",
+			"20": "No changes were made to the league",
+			"21": "An error occurred while deleting the league"
+		},
+		"invites": {
+			"1": "League invitations: {name}",
+			"2": "Invitation copied successfully",
+			"3": "You have been invited to the league {name}",
+			"4": "League invitations",
+			"5": "Do you want to join, or do you want to reject the invitation?",
+			"6": {
+				"accept": "Join the league",
+				"reject": "Reject invitation"
+			},
+			"7": "The invitation has expired or can no longer be used",
+			"8": "Invitation accepted, wait for the owner to accept you",
+			"9": "The invitation has been accepted",
+			"10": "Users pending acceptance",
+			"11": "Copy invitation",
+			"12": "{usos, plural, =0 {No uses left} =1 {1 use left} other {# uses left}}",
+			"13": "Create invitation",
+			"14": "Delete invitation",
+			"15": "Are you sure you want to delete the invitation?",
+			"16": "This action cannot be undone",
+			"17": "Cancel",
+			"18": "Invitation deleted successfully",
+			"19": "An error occurred while deleting the invitation",
+			"20": "Users pending acceptance",
+			"21": "Accept invitation",
+			"22": "Reject invitation",
+			"23": "User accepted",
+			"24": "An error occurred while accepting the invitation"
 		}
 	}
 }

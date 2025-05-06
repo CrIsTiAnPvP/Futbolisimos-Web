@@ -1,7 +1,7 @@
 "use client"
 import NavBar from "@/components/NavBar"
 
-import { useSession } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react"
 import { useState, useEffect } from "react"
 import { redirect } from "next/navigation"
 import { useLocale, useTranslations } from "next-intl"
@@ -59,11 +59,17 @@ export default function Account() {
 				<div className="flex flex-col items-center justify-center bg-gray-300/40 dark:bg-gray-800/40 shadow-lg shadow-blue-400/40 dark:shadow-blue-900/50 mt-20 rounded-lg w-full mx-5 md:mx-10">
 					<div className="flex text-center">
 						<h1 className="dark:text-white md:font-bold text-2xl my-5">{messages('1', { user: session.user.name ?? 'Guest' })}</h1>
+						<div className="flex flex-col items-center justify-center ml-1 md:ml-5">
+							<button
+								onClick={() => {signOut({redirectTo: `/${locale}`})}}
+								className="px-3 py-2 mr-2 bg-red-500 text-white/80 font-semibold hover:cursor-pointer active:scale-[.97] transform duration-200 rounded-lg"
+							>{messages('4')}</button>
+						</div>
 					</div>
 					<div className="flex w-full">
 						<div className="flex flex-col items-center justify-center ml-1 md:ml-10">
 							<Image
-								src={image}	
+								src={image}
 								width={128}
 								height={128}
 								alt={`${session.user.name} image`}
@@ -78,7 +84,7 @@ export default function Account() {
 								className="flex flex-col items-start"
 							>
 								<label htmlFor="username" className="dark:text-white font-medium mb-2">
-									Nombre del usuario
+									{messages('2')}
 								</label>
 								<input
 									type="text"
@@ -89,9 +95,9 @@ export default function Account() {
 								/>
 								<button
 									type="submit"
-									className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 hover:cursor-pointer active:scale-[.97]"
+									className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 hover:cursor-pointer active:scale-[.97] transform duration-200"
 								>
-									Guardar
+									{messages('3')}
 								</button>
 							</form>
 						</div>

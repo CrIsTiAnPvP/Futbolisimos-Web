@@ -5,7 +5,7 @@ import { ApiKey } from '@/lib/utils';
 async function handleInvite(id_liga: string, privada: boolean, id_user?: string) {
 
 	if (privada) {
-		let invite = await prisma.invitacion.findFirst({
+		const invite = await prisma.invitacion.findFirst({
 			where: {
 				id_liga: id_liga
 
@@ -14,7 +14,7 @@ async function handleInvite(id_liga: string, privada: boolean, id_user?: string)
 		if (invite) return undefined
 	}
 
-	let invite = await prisma.invitacion.create({
+	const invite = await prisma.invitacion.create({
 		data: {
 			id_liga: id_liga,
 			id_invitador: id_user || ''
