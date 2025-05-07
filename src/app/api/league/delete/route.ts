@@ -27,5 +27,25 @@ export async function DELETE(req: NextRequest) {
 		}
 	})
 
+	await prisma.invitacion.deleteMany({
+		where: {
+			id_liga: id
+		}
+	})
+
+	await prisma.user.updateMany({
+		where: {
+			IdsLigas: {
+				has: id
+			}
+		},
+		data: {
+			IdsLigas: {
+				set: league.IdsUsuarios.filter((i) => i !== id)
+			}
+		}
+	})
+
+
 	return NextResponse.json({ message: 'League deleted successfully' }, { status: 200 });
 }

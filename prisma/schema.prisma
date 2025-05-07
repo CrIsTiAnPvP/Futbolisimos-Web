@@ -253,7 +253,7 @@ model Invitacion {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
   id_liga       String   @db.ObjectId
   fechaCreacion DateTime @default(now())
-  usosMaximos  Int      @default(1)
+  usosMaximos   Int      @default(1)
   usosRestantes Int      @default(1)
 
   // Relacion 1-1 con usuario, ya que 1 invitacion la crea un usuario y 1 usuario crea una invitacion

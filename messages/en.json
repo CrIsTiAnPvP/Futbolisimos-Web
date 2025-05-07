@@ -30,7 +30,7 @@
 			"1": "Username changed!",
 			"2": "You can only change your username once a day",
 			"3": "An error occurred",
-			"4": "You cannot change to the username you already have"
+			"4": "You cannot change your username to the one you already have"
 		}
 	},
 	"league": {
@@ -87,7 +87,14 @@
 			"18": "League deleted successfully",
 			"19": "You don't have permission to delete this league",
 			"20": "No changes were made to the league",
-			"21": "An error occurred while deleting the league"
+			"21": "An error occurred while deleting the league",
+			"22": "Kick",
+			"23": "Are you sure you want to kick the user {name}?",
+			"24": "This action cannot be undone",
+			"25": "Kick user",
+			"26": "User kicked successfully",
+			"27": "An error occurred while kicking the user",
+			"28": "You don't have permission to kick this user"
 		},
 		"invites": {
 			"1": "League invitations: {name}",
@@ -116,7 +123,15 @@
 			"21": "Accept invitation",
 			"22": "Reject invitation",
 			"23": "User accepted",
-			"24": "An error occurred while accepting the invitation"
+			"24": "An error occurred while accepting the invitation",
+			"25": "Specify how many uses you want for the invitation",
+			"26": "Uses",
+			"27": "Invitation created successfully",
+			"28": "An error occurred while creating the invitation",
+			"29": "The invitation cannot have 0 uses",
+			"30": "In private leagues, there can only be a maximum of 1 active invitation",
+			"31": "The league already has the maximum number of allowed users",
+			"32": "There are no invitations in this league"
 		}
 	}
 }

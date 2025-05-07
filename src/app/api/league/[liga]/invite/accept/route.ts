@@ -27,6 +27,16 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ lig
 
 	if (!invitacion) return NextResponse.json({ error: "Invitation not found" }, { status: 404 });
 
+	const ligaObj = await prisma.liga.findFirst({
+		where: {
+			id: liga
+		}
+	})
+
+	if (!ligaObj) return NextResponse.json({ error: "League not found" }, { status: 404 });
+
+	if (ligaObj.IdsUsuarios.length + 1 > ligaObj.usuariosMaximos) return NextResponse.json({ error: "League is full" }, { status: 403 });
+
 	invitacion = await prisma.invitacion.update({
 		where: {
 			id: id
@@ -37,6 +47,31 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ lig
 			},
 			id_usuarios_aceptados: {
 				set: [...invitacion.id_usuarios_aceptados, user_id]
+			}
+		}
+	})
+
+	await prisma.liga.update({
+		where: {
+			id: liga
+		},
+		data: {
+			IdsUsuarios: {
+				set: [...ligaObj.IdsUsuarios, user_id]
+			},
+			cantidadMiembros: ligaObj.cantidadMiembros + 1
+		}
+	})
+
+	await prisma.user.update({
+		where: {
+			id: user_id
+		},
+		data: {
+			Ligas: {
+				connect: {
+					id: liga
+				}
 			}
 		}
 	})

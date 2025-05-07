@@ -225,7 +225,7 @@ export default function ViewLeague({ id }: { id: string }) {
 									users.length > 0 ? (
 										users.map((user) => {
 											return (
-												<div key={user.id} className="flex items-center justify-between w-full p-2 md:p-5 gap-4 md:gap-10 border-b border-t border-gray-300 dark:border-blue-900">
+												<div key={user.id} className="flex flex-col md:flex-row items-center justify-between w-full p-2 md:p-5 gap-4 md:gap-10 border-b border-t border-gray-300 dark:border-blue-900">
 													<div className="flex items-center gap-4">
 														<Image
 															src={user.image ?? '/images/default.webp'}
@@ -236,7 +236,53 @@ export default function ViewLeague({ id }: { id: string }) {
 														/>
 														<h1 className="text-lg font-semibold dark:text-white">{user.name}</h1>
 													</div>
-													<p className="text-gray-500 dark:text-gray-400">{t('7', { type: String(liga.id_creador === user.id) })}</p>
+													<div className="flex flex-col gap-2 md:flex-row items-center">
+														<p className="text-gray-500 dark:text-gray-400">{t('7', { type: String(liga.id_creador === user.id) })}</p>
+														{(liga.id_creador === session.user.id) && (user.id != session.user.id) && (
+															<AlertDialog>
+																<AlertDialogTrigger className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 hover:cursor-pointer active:scale-[.97] transform duration-200">{t('22')}</AlertDialogTrigger>
+																<AlertDialogContent className="dark:bg-gray-900 bg-gray-300 dark:text-white">
+																	<AlertDialogHeader>
+																		<AlertDialogTitle>{t('23', { name: user.name ?? 'usuario' })}</AlertDialogTitle>
+																		<AlertDialogDescription className="dark:text-white">{t('14')}</AlertDialogDescription>
+																	</AlertDialogHeader>
+																	<AlertDialogFooter>
+																		<AlertDialogCancel
+																			className="hover:cursor-pointer active:scale-[.97] transform duration-200"
+																		>{t('16')}</AlertDialogCancel>
+																		<AlertDialogAction
+																			className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 hover:cursor-pointer active:scale-[.97] transform duration-200"
+																			onClick={() => {
+																				fetch(`/api/league/${liga.id}/user/${user.id}/kick`, {
+																					method: 'DELETE',
+																					headers: {
+																						'Content-Type': 'application/json',
+																					},
+																					body: JSON.stringify({
+																						apiKey: ApiKey,
+																					})
+																				}).then(async (res) => {
+																					if (res.status === 200) {
+																						toast.success(t('26'))
+																						setUserids(userids.filter((i) => i !== user.id))
+																						setUsers(users.filter((i) => i.id !== user.id))
+																						redirect(`/${locale}/league/${liga.id}/view`)
+																					} else if (res.status === 403) {
+																						toast.error(t('28'))
+																					} else if ((await res.json()).error === 'No changes made') {
+																						toast.error(t('20'))
+																					} else {
+																						toast.error(t('27'))
+																					}
+
+																				})
+																			}}
+																		>{t('25')}</AlertDialogAction>
+																	</AlertDialogFooter>
+																</AlertDialogContent>
+															</AlertDialog>
+														)}
+													</div>
 												</div>
 											)
 										})
@@ -268,9 +314,8 @@ export default function ViewLeague({ id }: { id: string }) {
 								) : (
 									users.length > 0 ? (
 										users.map((user) => {
-											console.log(user)
 											return (
-												<div key={user.id} className="flex items-center justify-between w-full p-2 md:p-5 gap-4 md:gap-10 border-b border-t border-gray-300 dark:border-blue-900">
+												<div key={user.id} className="flex items-center justify-between w-full p-2 md:p-5 gap-4 md:gap-10 border-b border-t border-gray-300 dark:border-blue-900 hover:scale-[1.05] transform duration-200">
 													<div className="flex items-center gap-4">
 														<Image
 															src={user.image ?? '/images/default.webp'}
@@ -281,7 +326,9 @@ export default function ViewLeague({ id }: { id: string }) {
 														/>
 														<h1 className="text-lg font-semibold dark:text-white">{user.name}</h1>
 													</div>
-													<p className="text-gray-500 dark:text-gray-400">{t('7', { type: String(liga.id_creador === user.id) })}</p>
+													<div>
+														<p className="text-gray-500 dark:text-gray-400">{t('7', { type: String(liga.id_creador === user.id) })}</p>
+													</div>
 												</div>
 											)
 										})

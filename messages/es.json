@@ -87,7 +87,14 @@
 			"18": "Liga eliminada correctamente",
 			"19": "No tienes permiso para eliminar esta liga",
 			"20": "No se realizaron cambios en la liga",
-			"21": "Ha ocurrido un error al eliminar la liga"
+			"21": "Ha ocurrido un error al eliminar la liga",
+			"22": "Expulsar",
+			"23": "¿Estás seguro de que quieres expulsar al usuario {name}?",
+			"24": "Esta acción no se puede deshacer",
+			"25": "Expulsar usuario",
+			"26": "Usuario expulsado correctamente",
+			"27": "Ha ocurrido un error al expulsar al usuario",
+			"28": "No tienes permiso para expulsar a este usuario"
 		},
 		"invites": {
 			"1": "Invitaciones de la liga: {name}",
@@ -116,7 +123,15 @@
 			"21": "Aceptar invitación",
 			"22": "Rechazar invitación",
 			"23": "Usuario aceptado",
-			"24": "Ha ocurrido un error al aceptar la invitación"
+			"24": "Ha ocurrido un error al aceptar la invitación",
+			"25": "Indica cuantos usos quieres para la invitación",
+			"26": "Usos",
+			"27": "Invitación creada con éxito",
+			"28": "Ha ocurrido un error al crear la invitación",
+			"29": "La invitación no puede tener 0 usos",
+			"30": "En ligas privadas, solo puede haber un máximo de 1 invitación activa",
+			"31": "La liga ya tiene el máximo de usuarios permitidos",
+			"32": "No hay invitaciones en esta liga"
 		}
 	}
 }

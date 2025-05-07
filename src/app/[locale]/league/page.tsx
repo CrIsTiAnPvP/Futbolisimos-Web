@@ -86,7 +86,15 @@ export default function League() {
 			<Nav session={session} />
 			<div className="flex items-center justify-center w-full">
 				<div className="flex flex-col items-center justify-center bg-gray-300/40 dark:bg-gray-800/40 shadow-lg shadow-blue-400/40 dark:shadow-blue-900/50 mt-20 rounded-lg w-full mx-5 md:mx-10">
-					<h1 className="mt-2 text-2xl font-semibold dark:text-white">{ligas && ligas.length > 0 ? messages('1') : messages('2')}</h1>
+					<div className="flex items-center justify-center w-full p-4 gap-4">
+						<h1 className="mt-2 text-2xl font-semibold dark:text-white">{ligas && ligas.length > 0 ? messages('1') : messages('2')}</h1>
+						{ligas && ligas.length > 0 && (
+							<button
+								className="p-2 text-lg font-semibold rounded-md dark:text-white bg-gray-300 dark:bg-gray-700 hover:cursor-pointer hover:scale-[1.01] transform duration-200 active:scale-[.97] active:bg-gray-400 active:dark:bg-gray-800/90 mt-2"
+								onClick={() => redirect(`/${locale}/league/create`)}
+							>+ {messages('3')}</button>
+						)}
+					</div>
 					<div className={ligas && ligas.length > 0 ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-2" : "flex flex-col items-center justify-center p-2"}>
 						{
 							ligas && ligas.length > 0 ? (

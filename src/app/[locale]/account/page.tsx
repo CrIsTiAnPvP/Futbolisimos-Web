@@ -61,7 +61,7 @@ export default function Account() {
 						<h1 className="dark:text-white md:font-bold text-2xl my-5">{messages('1', { user: session.user.name ?? 'Guest' })}</h1>
 						<div className="flex flex-col items-center justify-center ml-1 md:ml-5">
 							<button
-								onClick={() => {signOut({redirectTo: `/${locale}`})}}
+								onClick={() => {signOut({redirect: true, redirectTo: `/${locale}`})}}
 								className="px-3 py-2 mr-2 bg-red-500 text-white/80 font-semibold hover:cursor-pointer active:scale-[.97] transform duration-200 rounded-lg"
 							>{messages('4')}</button>
 						</div>

@@ -34,6 +34,8 @@ export async function POST(req: NextRequest) {
 			Invitaciones: {
 				create: {
 					id_invitador: id,
+					usosMaximos: privateLeague ? 999 : (maxMembers - 1 > 1 ? maxMembers - 1 : 1),
+					usosRestantes: privateLeague ? 999 : (maxMembers - 1 > 1 ? maxMembers - 1 : 1),
 				}
 			},
 			cantidadMiembros: 1,
