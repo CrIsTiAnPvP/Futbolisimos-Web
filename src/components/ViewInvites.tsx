@@ -255,7 +255,7 @@ export default function ViewInvites({ id }: { id: string }) {
 							<DialogFooter>
 								<Button
 									type="submit"
-									onClick={async (e) => {
+									onClick={async () => {
 										if (usos > 0) {
 											const res = await createInvite(liga, session.user.id, usos)
 											if (res) {
